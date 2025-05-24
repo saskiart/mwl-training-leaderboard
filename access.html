@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Access MWL Game Show Leaderboard</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #b5f7f0, #ffd4c4);
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+        }
+        h1 {
+            color: #2d6898;
+            margin-bottom: 30px;
+        }
+        .qr-code {
+            margin: 20px 0;
+        }
+        .url {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            word-break: break-all;
+            margin: 20px 0;
+        }
+        .instructions {
+            text-align: left;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Access the Leaderboard</h1>
+        
+        <p>Scan this QR code with your phone:</p>
+        <div class="qr-code">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://saskiart.github.io/mwl-training-leaderboard/" alt="QR Code">
+        </div>
+        
+        <p>Or visit this URL:</p>
+        <div class="url">
+            https://saskiart.github.io/mwl-training-leaderboard/
+        </div>
+        
+        <div class="instructions">
+            <h2>How to Use:</h2>
+            <ol>
+                <li>Open the leaderboard using either method above</li>
+                <li>Enter your name in the "Update Score" panel</li>
+                <li>Select the category we're currently covering</li>
+                <li>Enter your score when instructed</li>
+                <li>Watch the leaderboard update in real-time!</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
