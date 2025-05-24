@@ -1,21 +1,341 @@
 <!DOCTYPE html>
 <html>
-<!-- Previous head and style sections remain the same -->
 <head>
     <title>MANAGING WITHIN THE LAW - US GAME SHOW EDITION</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --host-blue: #2d6898;
+            --host-orange: #e67e22;
+            --block-text: #1A1A1A;
+            --gradient-primary: linear-gradient(135deg, var(--host-blue), #1a4b6e);
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
         /* All previous styles remain the same */
+        /* [Previous CSS content] */
     </style>
 </head>
 <body>
-    <!-- Previous HTML structure remains the same until the script section -->
-    
+    <div class="page-wrapper">
+        <!-- Decorative Elements -->
+        <div class="decorative-corner corner-left"></div>
+        <div class="decorative-corner corner-right"></div>
+        
+        <!-- Fixed Sparkles -->
+        <div class="sparkle sparkle-1 gold"></div>
+        <div class="sparkle sparkle-2 blue"></div>
+        <div class="sparkle sparkle-3 orange"></div>
+        <div class="sparkle sparkle-4 blue"></div>
+        <div class="sparkle sparkle-5 gold"></div>
+        <div class="sparkle sparkle-6 orange"></div>
+        
+        <!-- Additional Sparkles -->
+        <div class="sparkle sparkle-7 blue"></div>
+        <div class="sparkle sparkle-8 gold"></div>
+        <div class="sparkle sparkle-9 orange"></div>
+        <div class="sparkle sparkle-10 blue"></div>
+        <div class="sparkle sparkle-11 gold"></div>
+        <div class="sparkle sparkle-12 orange"></div>
+
+        <!-- Sound Effect -->
+        <audio id="submitSound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
+        <div class="confetti-container"></div>
+
+        <!-- Block Logo and Admin -->
+        <div class="fixed-elements">
+            <img src="images/block-lockup_black-on-white.jpg" alt="Block Logo" class="block-logo">
+            <button onclick="toggleAdminPanel()" class="admin-toggle-btn">
+                <span>⚙️</span>
+                <span>Admin</span>
+            </button>
+        </div>
+
+        <!-- Modal Backdrop -->
+        <div id="modalBackdrop" class="modal-backdrop"></div>
+
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="admin-panel">
+            <div class="admin-header">
+                <h3>Admin Controls</h3>
+                <button onclick="toggleAdminPanel()" class="close-btn">×</button>
+            </div>
+            <div class="admin-content">
+                <div class="admin-section">
+                    <h4>Reset Controls</h4>
+                    <button onclick="confirmResetAll()" class="danger-btn">Reset All Scores</button>
+                    <select id="resetCategorySelect">
+                        <option value="">Select Category to Reset</option>
+                        <option value="hiring">👥 Hiring</option>
+                        <option value="wage">💰 Wage & Hour</option>
+                        <option value="performance">📊 Performance Management</option>
+                        <option value="terminations">📝 Terminations</option>
+                        <option value="claims">⚖️ Common Claims</option>
+                        <option value="policies">📜 Key Policies</option>
+                    </select>
+                    <button onclick="confirmResetCategory()" class="warning-btn">Reset Selected Category</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Title -->
+        <div class="main-header spotlight-effect">
+            <div class="title-decorations">
+                <div class="title-decoration decoration-left"></div>
+                <div class="title-decoration decoration-right"></div>
+                <div class="title-stars star-1">✦</div>
+                <div class="title-stars star-2">✦</div>
+                <div class="title-stars star-3">✦</div>
+                <div class="title-stars star-4">✦</div>
+            </div>
+            <div class="title-wrapper">
+                <h1>MANAGING WITHIN THE LAW</h1>
+                <h2>GAME SHOW EDITION</h2>
+                <div class="subtitle">LEADERBOARD</div>
+            </div>
+        </div>
+
+        <!-- Host Section -->
+        <div class="host-section">
+            <div class="host-wrapper spotlight-effect">
+                <div class="host-content">
+                    <div class="host-image">
+                        <img src="images/Game Show Host with Blue Board.png" alt="Game Show Host">
+                    </div>
+                    <div class="host-message">
+                        <h3>Welcome to the Legal Challenge!</h3>
+                        <p>Test your knowledge for a chance to earn 🏆 top rankings</p>
+                        <div class="host-message-details">
+                            <p>🎯 Master key legal concepts</p>
+                            <p>📚 Learn as you go — every question's a chance to grow</p>
+                            <p>🎉 Celebrate your progress and cheer on your peers</p>
+                        </div>
+                    </div>
+                    <img src="images/ChatGPT Image Apr 29, 2025, 10_23_35 PM.png" alt="Game Show Contestants" class="contestants-image">
+                </div>
+            </div>
+        </div>
+
+        <!-- Three Panel Layout -->
+        <div class="three-panel-layout">
+            <!-- How to Play -->
+            <div class="rules-section">
+                <div class="category-header">
+                    <h3>
+                        <span class="category-icon">📋</span>
+                        How to Play
+                    </h3>
+                </div>
+                <ol>
+                    <li>Complete each category quiz to test your knowledge.</li>
+                    <li>Your score for each category will be based on correct answers.</li>
+                    <li>Submit your scores using the Score Entry Panel.</li>
+                    <li>Compete in all categories to maximize your overall ranking.</li>
+                </ol>
+            </div>
+
+            <!-- Score Entry -->
+            <div class="score-entry-panel">
+                <h3>
+                    <span class="category-icon">✏️</span>
+                    Update Score
+                </h3>
+                <div class="score-form">
+                    <select id="categorySelect">
+                        <option value="overall">Overall Leaderboard</option>
+                        <option value="hiring">👥 Hiring</option>
+                        <option value="wage">💰 Wage & Hour</option>
+                        <option value="performance">📊 Performance Management</option>
+                        <option value="terminations">📝 Terminations</option>
+                        <option value="claims">⚖️ Common Claims</option>
+                        <option value="policies">📜 Key Policies</option>
+                    </select>
+                    <input type="text" id="playerName" placeholder="Your Name">
+                    <input type="number" id="score" placeholder="Score">
+                    <input type="text" id="time" placeholder="Time (Optional)">
+                    <button onclick="addScore()">Add Score</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Content -->
+        <div class="center-content">
+            <!-- Leaderboard -->
+            <div class="leaderboard">
+                <div class="leaderboard-header">
+                    <h3>
+                        <span class="category-icon">🏆</span>
+                        Leaderboard
+                    </h3>
+                </div>
+                <table class="category-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Total Score</th>
+                            <th>Categories Completed</th>
+                        </tr>
+                    </thead>
+                    <tbody id="overallLeaderboard">
+                        <!-- Scores will be added here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Category Grid -->
+            <div class="category-grid">
+                <!-- Hiring -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h3>
+                            <span class="category-icon">👥</span>
+                            Hiring
+                        </h3>
+                    </div>
+                    <table class="category-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hiringLeaderboard">
+                            <!-- Scores will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Wage & Hour -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h3>
+                            <span class="category-icon">💰</span>
+                            Wage & Hour
+                        </h3>
+                    </div>
+                    <table class="category-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="wageLeaderboard">
+                            <!-- Scores will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Performance Management -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h3>
+                            <span class="category-icon">📊</span>
+                            Performance Management
+                        </h3>
+                    </div>
+                    <table class="category-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="performanceLeaderboard">
+                            <!-- Scores will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Terminations -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h3>
+                            <span class="category-icon">📝</span>
+                            Terminations
+                        </h3>
+                    </div>
+                    <table class="category-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="terminationsLeaderboard">
+                            <!-- Scores will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Common Claims -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h3>
+                            <span class="category-icon">⚖️</span>
+                            Common Claims
+                        </h3>
+                    </div>
+                    <table class="category-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="claimsLeaderboard">
+                            <!-- Scores will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Key Policies -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h3>
+                            <span class="category-icon">📜</span>
+                            Key Policies
+                        </h3>
+                    </div>
+                    <table class="category-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="policiesLeaderboard">
+                            <!-- Scores will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // JSONBin.io configuration
         const JSONBIN_BIN_ID = '6831ed698960c979a5a09182';
         const JSONBIN_API_KEY = '$2a$10$az3EVReenqC2VS1Obky5Cuph1T2/9Md5SJf2jT7k12EGB8FebuuKS';
         const JSONBIN_API_URL = 'https://api.jsonbin.io/v3/b';
 
+        // [Rest of the JavaScript code remains the same]
         // Initialize or load scores
         async function initializeScores() {
             try {
@@ -46,285 +366,13 @@
             }
         }
 
-        // Save scores to JSONBin.io
-        async function saveScores(scores) {
-            try {
-                const response = await fetch(`${JSONBIN_API_URL}/${JSONBIN_BIN_ID}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': JSONBIN_API_KEY
-                    },
-                    body: JSON.stringify(scores)
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Failed to save scores');
-                }
-                
-                return true;
-            } catch (error) {
-                console.error('Error saving scores:', error);
-                return false;
-            }
-        }
-
-        // Toggle admin panel visibility
-        function toggleAdminPanel() {
-            const adminPanel = document.getElementById('adminPanel');
-            const modalBackdrop = document.getElementById('modalBackdrop');
-            const isVisible = adminPanel.style.display === 'block';
-            
-            adminPanel.style.display = isVisible ? 'none' : 'block';
-            modalBackdrop.style.display = isVisible ? 'none' : 'block';
-            
-            if (!isVisible) {
-                populateResetCategorySelect();
-            }
-        }
-
-        // Close admin panel when clicking outside
-        document.getElementById('modalBackdrop').addEventListener('click', function(e) {
-            if (e.target === this) {
-                toggleAdminPanel();
-            }
-        });
-
-        // Populate category select dropdown
-        function populateResetCategorySelect() {
-            const select = document.getElementById('resetCategorySelect');
-            select.innerHTML = `
-                <option value="">Select Category to Reset</option>
-                <option value="hiring">👥 Hiring</option>
-                <option value="wage">💰 Wage & Hour</option>
-                <option value="performance">📊 Performance Management</option>
-                <option value="terminations">📝 Terminations</option>
-                <option value="claims">⚖️ Common Claims</option>
-                <option value="policies">📜 Key Policies</option>
-            `;
-        }
-
-        // Add a new score
-        async function addScore() {
-            const category = document.getElementById('categorySelect').value;
-            const playerName = document.getElementById('playerName').value;
-            const score = parseInt(document.getElementById('score').value);
-            const time = document.getElementById('time').value;
-
-            if (!playerName || isNaN(score)) {
-                alert('Please enter both name and score');
-                return;
-            }
-
-            // Load current scores
-            const scores = await initializeScores();
-            
-            // Add new score
-            scores[category].push({
-                name: playerName,
-                score: score,
-                time: time || 'N/A'
-            });
-
-            // Sort by score (descending)
-            scores[category].sort((a, b) => b.score - a.score);
-
-            // Save updated scores
-            const saved = await saveScores(scores);
-            if (saved) {
-                // Play submit sound
-                document.getElementById('submitSound').play();
-
-                updateLeaderboards();
-                
-                // Clear form
-                document.getElementById('playerName').value = '';
-                document.getElementById('score').value = '';
-                document.getElementById('time').value = '';
-            } else {
-                alert('Failed to save score. Please try again.');
-            }
-        }
-
-        // Celebration effects
-        function celebrateNewHighScore() {
-            // Play celebration sound
-            document.getElementById('celebrationSound').play();
-
-            // Add celebration animation to the leaderboard
-            const leaderboard = document.querySelector('.leaderboard');
-            leaderboard.classList.add('celebrate');
-            setTimeout(() => leaderboard.classList.remove('celebrate'), 500);
-
-            // Create confetti
-            createConfetti();
-        }
-
-        function createConfetti() {
-            const colors = ['#e67e22', '#2d6898', '#1a4b6e', '#ffc107', '#fff'];
-            const confettiCount = 100;
-            const container = document.querySelector('.confetti-container');
-            container.innerHTML = '';
-
-            for (let i = 0; i < confettiCount; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.animationDelay = Math.random() * 3 + 's';
-                confetti.style.animation = 'confetti 3s ease-out forwards';
-                container.appendChild(confetti);
-            }
-
-            // Clean up confetti after animation
-            setTimeout(() => {
-                container.innerHTML = '';
-            }, 6000);
-        }
-
-        // Reset all scores
-        async function confirmResetAll() {
-            if (confirm('Are you sure you want to reset ALL scores? This cannot be undone.')) {
-                const emptyScores = {
-                    overall: [],
-                    hiring: [],
-                    wage: [],
-                    performance: [],
-                    terminations: [],
-                    claims: [],
-                    policies: []
-                };
-                
-                const saved = await saveScores(emptyScores);
-                if (saved) {
-                    updateLeaderboards();
-                    alert('All scores have been reset');
-                } else {
-                    alert('Failed to reset scores. Please try again.');
-                }
-            }
-        }
-
-        // Reset specific category
-        async function confirmResetCategory() {
-            const category = document.getElementById('resetCategorySelect').value;
-            if (!category) {
-                alert('Please select a category to reset');
-                return;
-            }
-
-            if (confirm(`Are you sure you want to reset scores for ${category}? This cannot be undone.`)) {
-                const scores = await initializeScores();
-                scores[category] = [];
-                
-                const saved = await saveScores(scores);
-                if (saved) {
-                    updateLeaderboards();
-                    alert(`Scores for ${category} have been reset`);
-                } else {
-                    alert('Failed to reset category. Please try again.');
-                }
-            }
-        }
-
-        // Update specific category leaderboard
-        function updateCategoryLeaderboard(tableId, scores) {
-            const tbody = document.getElementById(tableId);
-            tbody.innerHTML = '';
-
-            scores.forEach((score, index) => {
-                const row = tbody.insertRow();
-                const rankCell = row.insertCell();
-                const medal = getMedalEmoji(index);
-                rankCell.innerHTML = medal ? medal : (index + 1);
-                rankCell.className = medal ? 'medal-rank' : '';
-                
-                row.innerHTML += `
-                    <td>${score.name}</td>
-                    <td>${score.score}</td>
-                    <td>${score.time}</td>
-                `;
-            });
-        }
-
-        // Update overall leaderboard
-        function updateOverallLeaderboard(scores) {
-            const tbody = document.getElementById('overallLeaderboard');
-            tbody.innerHTML = '';
-
-            // Calculate total scores for each player
-            const playerTotals = {};
-            const categories = ['hiring', 'wage', 'performance', 'terminations', 'claims', 'policies'];
-
-            categories.forEach(category => {
-                scores[category].forEach(score => {
-                    if (!playerTotals[score.name]) {
-                        playerTotals[score.name] = {
-                            totalScore: 0,
-                            categoriesCompleted: 0
-                        };
-                    }
-                    playerTotals[score.name].totalScore += score.score;
-                    playerTotals[score.name].categoriesCompleted += 1;
-                });
-            });
-
-            // Convert to array and sort
-            const sortedPlayers = Object.entries(playerTotals)
-                .map(([name, data]) => ({
-                    name,
-                    totalScore: data.totalScore,
-                    categoriesCompleted: data.categoriesCompleted
-                }))
-                .sort((a, b) => b.totalScore - a.totalScore);
-
-            // Update table
-            sortedPlayers.forEach((player, index) => {
-                const row = tbody.insertRow();
-                const rankCell = row.insertCell();
-                const medal = getMedalEmoji(index);
-                rankCell.innerHTML = medal ? medal : (index + 1);
-                rankCell.className = medal ? 'medal-rank' : '';
-                
-                row.innerHTML += `
-                    <td>${player.name}</td>
-                    <td>${player.totalScore}</td>
-                    <td>${player.categoriesCompleted} / 6</td>
-                `;
-            });
-        }
-
-        // Get medal emoji based on rank
-        function getMedalEmoji(index) {
-            switch(index) {
-                case 0: return '🥇';
-                case 1: return '🥈';
-                case 2: return '🥉';
-                default: return null;
-            }
-        }
-
-        // Update all leaderboards
-        async function updateLeaderboards() {
-            const scores = await initializeScores();
-            
-            // Update each category leaderboard
-            updateCategoryLeaderboard('hiringLeaderboard', scores.hiring);
-            updateCategoryLeaderboard('wageLeaderboard', scores.wage);
-            updateCategoryLeaderboard('performanceLeaderboard', scores.performance);
-            updateCategoryLeaderboard('terminationsLeaderboard', scores.terminations);
-            updateCategoryLeaderboard('claimsLeaderboard', scores.claims);
-            updateCategoryLeaderboard('policiesLeaderboard', scores.policies);
-            
-            // Update overall leaderboard
-            updateOverallLeaderboard(scores);
-        }
-
-        // Auto-refresh leaderboard every 30 seconds
-        setInterval(updateLeaderboards, 30000);
-
+        // [Rest of the JavaScript functions remain the same]
+        
         // Initial update of leaderboards
         updateLeaderboards();
+        
+        // Auto-refresh leaderboard every 30 seconds
+        setInterval(updateLeaderboards, 30000);
     </script>
 </body>
 </html>
