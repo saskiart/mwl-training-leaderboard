@@ -1154,17 +1154,61 @@
     </div>
 
     <script>
-        // Initialize scores storage if it doesn't exist
-        if (!localStorage.getItem('leaderboardScores')) {
-            localStorage.setItem('leaderboardScores', JSON.stringify({
-                overall: [],
-                hiring: [],
-                wage: [],
-                performance: [],
-                terminations: [],
-                claims: [],
-                policies: []
-            }));
+        // JSONBin.io configuration
+        const JSONBIN_BIN_ID = '6831ed698960c979a5a09182';
+        const JSONBIN_API_KEY = '$2a$10$az3EVReenqC2VS1Obky5Cuph1T2/9Md5SJf2jT7k12EGB8FebuuKS';
+        const JSONBIN_API_URL = 'https://api.jsonbin.io/v3/b';
+
+        // Load scores from JSONBin.io
+        async function getScores() {
+            try {
+                const response = await fetch(`${JSONBIN_API_URL}/${JSONBIN_BIN_ID}/latest`, {
+                    headers: {
+                        'X-Master-Key': JSONBIN_API_KEY
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch scores');
+                }
+                
+                const data = await response.json();
+                return data.record;
+            } catch (error) {
+                console.error('Error loading scores:', error);
+                return {
+                    overall: [],
+                    hiring: [],
+                    wage: [],
+                    performance: [],
+                    terminations: [],
+                    claims: [],
+                    policies: []
+                };
+            }
+        }
+
+        // Save scores to JSONBin.io
+        async function saveScores(scores) {
+            try {
+                const response = await fetch(`${JSONBIN_API_URL}/${JSONBIN_BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': JSONBIN_API_KEY
+                    },
+                    body: JSON.stringify(scores)
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to save scores');
+                }
+                
+                return true;
+            } catch (error) {
+                console.error('Error saving scores:', error);
+                return false;
+            }
         }
 
         // Toggle admin panel visibility
@@ -1176,7 +1220,6 @@
             adminPanel.style.display = isVisible ? 'none' : 'block';
             modalBackdrop.style.display = isVisible ? 'none' : 'block';
             
-            // Populate category select if panel is being shown
             if (!isVisible) {
                 populateResetCategorySelect();
             }
@@ -1204,7 +1247,7 @@
         }
 
         // Add a new score
-        function addScore() {
+        async function addScore() {
             const category = document.getElementById('categorySelect').value;
             const playerName = document.getElementById('playerName').value;
             const score = parseInt(document.getElementById('score').value);
@@ -1215,8 +1258,7 @@
                 return;
             }
 
-            const scores = JSON.parse(localStorage.getItem('leaderboardScores'));
-            const oldTopScore = scores[category].length > 0 ? scores[category][0].score : 0;
+            const scores = await getScores();
             
             // Add score to selected category
             scores[category].push({
@@ -1228,17 +1270,20 @@
             // Sort by score (descending)
             scores[category].sort((a, b) => b.score - a.score);
 
-            localStorage.setItem('leaderboardScores', JSON.stringify(scores));
-            
-            // Play submit sound
-            document.getElementById('submitSound').play();
+            const saved = await saveScores(scores);
+            if (saved) {
+                // Play submit sound
+                document.getElementById('submitSound').play();
 
-            updateLeaderboards();
-            
-            // Clear form
-            document.getElementById('playerName').value = '';
-            document.getElementById('score').value = '';
-            document.getElementById('time').value = '';
+                updateLeaderboards();
+                
+                // Clear form
+                document.getElementById('playerName').value = '';
+                document.getElementById('score').value = '';
+                document.getElementById('time').value = '';
+            } else {
+                alert('Failed to save score. Please try again.');
+            }
         }
 
         // Celebration effects
@@ -1278,7 +1323,7 @@
         }
 
         // Reset all scores
-        function confirmResetAll() {
+        async function confirmResetAll() {
             if (confirm('Are you sure you want to reset ALL scores? This cannot be undone.')) {
                 const emptyScores = {
                     overall: [],
@@ -1289,14 +1334,19 @@
                     claims: [],
                     policies: []
                 };
-                localStorage.setItem('leaderboardScores', JSON.stringify(emptyScores));
-                updateLeaderboards();
-                alert('All scores have been reset');
+                
+                const saved = await saveScores(emptyScores);
+                if (saved) {
+                    updateLeaderboards();
+                    alert('All scores have been reset');
+                } else {
+                    alert('Failed to reset scores. Please try again.');
+                }
             }
         }
 
         // Reset specific category
-        function confirmResetCategory() {
+        async function confirmResetCategory() {
             const category = document.getElementById('resetCategorySelect').value;
             if (!category) {
                 alert('Please select a category to reset');
@@ -1304,11 +1354,16 @@
             }
 
             if (confirm(`Are you sure you want to reset scores for ${category}? This cannot be undone.`)) {
-                const scores = JSON.parse(localStorage.getItem('leaderboardScores'));
+                const scores = await getScores();
                 scores[category] = [];
-                localStorage.setItem('leaderboardScores', JSON.stringify(scores));
-                updateLeaderboards();
-                alert(`Scores for ${category} have been reset`);
+                
+                const saved = await saveScores(scores);
+                if (saved) {
+                    updateLeaderboards();
+                    alert(`Scores for ${category} have been reset`);
+                } else {
+                    alert('Failed to reset category. Please try again.');
+                }
             }
         }
 
@@ -1390,8 +1445,8 @@
         }
 
         // Update all leaderboards
-        function updateLeaderboards() {
-            const scores = JSON.parse(localStorage.getItem('leaderboardScores'));
+        async function updateLeaderboards() {
+            const scores = await getScores();
             
             // Update each category leaderboard
             updateCategoryLeaderboard('hiringLeaderboard', scores.hiring);
@@ -1404,6 +1459,9 @@
             // Update overall leaderboard
             updateOverallLeaderboard(scores);
         }
+
+        // Auto-refresh leaderboard every 30 seconds
+        setInterval(updateLeaderboards, 30000);
 
         // Initial update of leaderboards
         updateLeaderboards();
