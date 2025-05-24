@@ -15,8 +15,824 @@
             --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
         }
 
-        /* All previous styles remain the same */
-        /* [Previous CSS content] */
+        /* Celebration Animation */
+        @keyframes celebrate {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes confetti {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        .celebrate {
+            animation: celebrate 0.5s ease-in-out;
+        }
+
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--host-orange);
+            opacity: 0;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #b5f7f0, #ffd4c4);
+            min-height: 100vh;
+            color: var(--block-text);
+            background-attachment: fixed;
+            line-height: 1.5;
+        }
+
+        /* Main Layout */
+        .page-wrapper {
+            width: 100%;
+            margin: 0 auto;
+            padding: 15px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Spotlight Animation */
+        @keyframes spotlight {
+            0%, 100% {
+                background-position: -100% 0, 200% 0;
+            }
+            50% {
+                background-position: 200% 0, -100% 0;
+            }
+        }
+
+        .spotlight-effect {
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+        }
+
+        .spotlight-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(90deg, 
+                    transparent 0%, 
+                    rgba(255, 255, 255, 0.05) 45%,
+                    rgba(255, 255, 255, 0.1) 50%,
+                    rgba(255, 255, 255, 0.05) 55%,
+                    transparent 100%),
+                linear-gradient(90deg, 
+                    transparent 0%, 
+                    rgba(255, 255, 255, 0.05) 45%,
+                    rgba(255, 255, 255, 0.1) 50%,
+                    rgba(255, 255, 255, 0.05) 55%,
+                    transparent 100%);
+            background-size: 200% 100%, 200% 100%;
+            animation: spotlight 12s linear infinite;
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        /* Main Title */
+        .main-header {
+            width: 1000px;
+            margin: 0 auto 15px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            color: white;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .title-decorations {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .title-decoration {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            opacity: 0.15;
+        }
+
+        .title-decoration::before,
+        .title-decoration::after {
+            content: '';
+            position: absolute;
+            background: white;
+        }
+
+        .decoration-left {
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .decoration-right {
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .decoration-left::before,
+        .decoration-right::before {
+            width: 3px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            box-shadow: 
+                -12px 0 0 rgba(255, 255, 255, 0.2),
+                12px 0 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .decoration-left::after,
+        .decoration-right::after {
+            width: 100%;
+            height: 3px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            box-shadow: 
+                0 -12px 0 rgba(255, 255, 255, 0.2),
+                0 12px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .title-stars {
+            position: absolute;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.3);
+            animation: twinkle 2s infinite;
+        }
+
+        .star-1 { left: 40px; top: 20px; animation-delay: 0s; }
+        .star-2 { left: 60px; bottom: 20px; animation-delay: 0.3s; }
+        .star-3 { right: 40px; top: 20px; animation-delay: 0.6s; }
+        .star-4 { right: 60px; bottom: 20px; animation-delay: 0.9s; }
+
+        .title-wrapper h1 {
+            margin: 0;
+            font-size: 2em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .title-wrapper h2 {
+            margin: 15px 0;
+            font-size: 1.6em;
+            color: var(--host-orange);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            margin-top: 10px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        /* Host Section */
+        .host-section {
+            width: 800px;
+            margin: 0 auto 15px;
+        }
+
+        .host-wrapper {
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .host-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 15px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .host-image {
+            width: 100px;
+            flex-shrink: 0;
+        }
+
+        .host-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .host-message {
+            flex-grow: 1;
+            padding-left: 5px;
+            padding-right: 160px;
+        }
+
+        .contestants-image {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 140px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .host-message h3 {
+            color: var(--host-blue);
+            margin: 0 0 8px 0;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .host-message p {
+            margin: 0 0 12px 0;
+            font-size: 0.95em;
+        }
+
+        .host-message-details {
+            background: rgba(45, 104, 152, 0.05);
+            padding: 12px;
+            border-radius: 8px;
+            display: grid;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .host-message-details p {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Three Panel Layout */
+        .three-panel-layout {
+            width: 100%;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        /* Rules Section */
+        .rules-section {
+            width: 280px;
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: var(--shadow-md);
+            position: absolute;
+            left: 40px;
+        }
+
+        .rules-section h3 {
+            margin: 0 0 10px 0;
+            font-size: 1em;
+            text-align: center;
+        }
+
+        .rules-section ol {
+            margin: 0;
+            padding-left: 20px;
+            font-size: 0.9em;
+        }
+
+        .rules-section li {
+            margin-bottom: 8px;
+        }
+
+        /* Score Entry Panel */
+        .score-entry-panel {
+            width: 280px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            position: absolute;
+            right: 40px;
+            color: white;
+        }
+
+        .score-entry-panel h3 {
+            margin: 0;
+            font-size: 1.1em;
+            font-weight: 600;
+            padding: 15px 15px 5px 15px;
+            text-align: center;
+        }
+
+        .score-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 15px;
+        }
+
+        .score-form select,
+        .score-form input {
+            width: 100%;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        .score-form button {
+            width: 100%;
+            padding: 10px;
+            background: var(--host-orange);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Center Content */
+        .center-content {
+            width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Leaderboard */
+        .leaderboard {
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .leaderboard-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 12px 15px;
+        }
+
+        .leaderboard-header h3 {
+            margin: 0;
+            font-size: 1.1em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Category Grid */
+        .category-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .category-section {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .category-header {
+            background: var(--gradient-primary);
+            padding: 12px 15px;
+            color: white;
+        }
+
+        .category-header h3 {
+            margin: 0;
+            font-size: 1em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Table Styling */
+        .category-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .category-table th,
+        .category-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            font-size: 0.9em;
+        }
+
+        .category-table th {
+            background: rgba(45, 104, 152, 0.03);
+            font-weight: 600;
+            color: var(--host-blue);
+        }
+
+        .medal-rank {
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        /* Fixed Elements */
+        .fixed-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .block-logo {
+            height: 100px;
+            width: auto;
+            pointer-events: auto;
+        }
+
+        /* Admin Panel */
+        .admin-toggle-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            pointer-events: auto;
+        }
+
+        .admin-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1001;
+            width: 90%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-header h3 {
+            margin: 0;
+            font-size: 1.2em;
+            color: var(--host-blue);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #666;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .admin-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .admin-section h4 {
+            margin: 0;
+            color: var(--host-blue);
+            font-size: 1em;
+        }
+
+        .admin-section select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .danger-btn, .warning-btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+
+        .danger-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .warning-btn {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .danger-btn:hover {
+            background: #c82333;
+        }
+
+        .warning-btn:hover {
+            background: #e0a800;
+        }
+
+        /* Modal Backdrop */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+
+        /* Decorative Elements */
+        .decorative-corner {
+            position: fixed;
+            width: 180px;
+            height: 180px;
+            pointer-events: none;
+            opacity: 0.15;
+            z-index: 5;
+        }
+
+        .decorative-corner::before,
+        .decorative-corner::after {
+            content: '';
+            position: absolute;
+            background: var(--host-blue);
+        }
+
+        .corner-left {
+            top: 80px;
+            left: 40px;
+        }
+
+        .corner-left::before {
+            width: 3px;
+            height: 100%;
+            left: 30px;
+            transform: rotate(-45deg);
+            box-shadow: 15px 0 0 rgba(45, 104, 152, 0.5),
+                       30px 0 0 rgba(45, 104, 152, 0.3);
+        }
+
+        .corner-left::after {
+            width: 100%;
+            height: 3px;
+            top: 30px;
+            transform: rotate(-45deg);
+            box-shadow: 0 15px 0 rgba(45, 104, 152, 0.5),
+                       0 30px 0 rgba(45, 104, 152, 0.3);
+        }
+
+        .corner-right {
+            top: 80px;
+            right: 40px;
+        }
+
+        .corner-right::before {
+            width: 3px;
+            height: 100%;
+            right: 30px;
+            transform: rotate(45deg);
+            box-shadow: -15px 0 0 rgba(230, 126, 34, 0.5),
+                       -30px 0 0 rgba(230, 126, 34, 0.3);
+        }
+
+        .corner-right::after {
+            width: 100%;
+            height: 3px;
+            top: 30px;
+            transform: rotate(45deg);
+            box-shadow: 0 15px 0 rgba(230, 126, 34, 0.5),
+                       0 30px 0 rgba(230, 126, 34, 0.3);
+        }
+
+        .sparkle {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            pointer-events: none;
+            opacity: 0.4;
+            animation: twinkle 3s infinite;
+        }
+
+        .sparkle.absolute {
+            position: absolute;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        .sparkle::before,
+        .sparkle::after {
+            content: '✦';
+            position: absolute;
+            font-size: 12px;
+            color: var(--host-orange);
+        }
+
+        .sparkle.blue::before,
+        .sparkle.blue::after {
+            color: var(--host-blue);
+        }
+
+        .sparkle.gold::before,
+        .sparkle.gold::after {
+            color: #ffc107;
+        }
+
+        /* Fixed sparkles */
+        .sparkle-1 { top: 100px; left: 80px; animation-delay: 0s; }
+        .sparkle-2 { top: 140px; left: 120px; animation-delay: 0.5s; }
+        .sparkle-3 { top: 180px; left: 70px; animation-delay: 1s; }
+        .sparkle-4 { top: 100px; right: 80px; animation-delay: 0.3s; }
+        .sparkle-5 { top: 140px; right: 120px; animation-delay: 0.8s; }
+        .sparkle-6 { top: 180px; right: 70px; animation-delay: 1.3s; }
+
+        /* Additional sparkles */
+        .sparkle-7 { top: 250px; left: 50px; animation-delay: 1.6s; }
+        .sparkle-8 { top: 300px; right: 60px; animation-delay: 1.9s; }
+        .sparkle-9 { top: 400px; left: 40px; animation-delay: 2.2s; }
+        .sparkle-10 { top: 450px; right: 45px; animation-delay: 2.5s; }
+        .sparkle-11 { top: 550px; left: 55px; animation-delay: 2.8s; }
+        .sparkle-12 { top: 600px; right: 65px; animation-delay: 3.1s; }
+
+        /* Floating shapes */
+        .floating-shape {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .floating-shape::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--host-blue);
+            transform: rotate(45deg);
+        }
+
+        .floating-shape.diamond::before {
+            border-radius: 4px;
+        }
+
+        .floating-shape.circle::before {
+            border-radius: 50%;
+        }
+
+        .floating-shape.orange::before {
+            border-color: var(--host-orange);
+        }
+
+        .floating-shape.gold::before {
+            border-color: #ffc107;
+        }
+
+        @media (max-width: 1800px) {
+            .three-panel-layout {
+                padding: 0 20px;
+            }
+
+            .rules-section {
+                left: 20px;
+            }
+
+            .score-entry-panel {
+                right: 20px;
+            }
+
+            .fixed-elements {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 1600px) {
+            .rules-section,
+            .score-entry-panel {
+                position: static;
+                width: 100%;
+                max-width: 1000px;
+                margin: 0 auto 15px;
+            }
+
+            .three-panel-layout {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .center-content {
+                width: 100%;
+                max-width: 1000px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -40,6 +856,14 @@
         <div class="sparkle sparkle-10 blue"></div>
         <div class="sparkle sparkle-11 gold"></div>
         <div class="sparkle sparkle-12 orange"></div>
+
+        <!-- Floating Shapes -->
+        <div class="floating-shape diamond" style="top: 220px; left: 45px;"></div>
+        <div class="floating-shape circle orange" style="top: 280px; right: 50px;"></div>
+        <div class="floating-shape diamond gold" style="top: 350px; left: 60px;"></div>
+        <div class="floating-shape circle" style="top: 420px; right: 55px;"></div>
+        <div class="floating-shape diamond orange" style="top: 480px; left: 48px;"></div>
+        <div class="floating-shape circle gold" style="top: 540px; right: 52px;"></div>
 
         <!-- Sound Effect -->
         <audio id="submitSound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
@@ -330,31 +1154,133 @@
     </div>
 
     <script>
-        // JSONBin.io configuration
-        const JSONBIN_BIN_ID = '6831ed698960c979a5a09182';
-        const JSONBIN_API_KEY = '$2a$10$az3EVReenqC2VS1Obky5Cuph1T2/9Md5SJf2jT7k12EGB8FebuuKS';
-        const JSONBIN_API_URL = 'https://api.jsonbin.io/v3/b';
+        // Initialize scores storage if it doesn't exist
+        if (!localStorage.getItem('leaderboardScores')) {
+            localStorage.setItem('leaderboardScores', JSON.stringify({
+                overall: [],
+                hiring: [],
+                wage: [],
+                performance: [],
+                terminations: [],
+                claims: [],
+                policies: []
+            }));
+        }
 
-        // [Rest of the JavaScript code remains the same]
-        // Initialize or load scores
-        async function initializeScores() {
-            try {
-                const response = await fetch(`${JSONBIN_API_URL}/${JSONBIN_BIN_ID}/latest`, {
-                    headers: {
-                        'X-Master-Key': JSONBIN_API_KEY
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error('Failed to fetch scores');
-                }
-                
-                const data = await response.json();
-                return data.record;
-            } catch (error) {
-                console.error('Error loading scores:', error);
-                // Fallback to empty scores if API call fails
-                return {
+        // Toggle admin panel visibility
+        function toggleAdminPanel() {
+            const adminPanel = document.getElementById('adminPanel');
+            const modalBackdrop = document.getElementById('modalBackdrop');
+            const isVisible = adminPanel.style.display === 'block';
+            
+            adminPanel.style.display = isVisible ? 'none' : 'block';
+            modalBackdrop.style.display = isVisible ? 'none' : 'block';
+            
+            // Populate category select if panel is being shown
+            if (!isVisible) {
+                populateResetCategorySelect();
+            }
+        }
+
+        // Close admin panel when clicking outside
+        document.getElementById('modalBackdrop').addEventListener('click', function(e) {
+            if (e.target === this) {
+                toggleAdminPanel();
+            }
+        });
+
+        // Populate category select dropdown
+        function populateResetCategorySelect() {
+            const select = document.getElementById('resetCategorySelect');
+            select.innerHTML = `
+                <option value="">Select Category to Reset</option>
+                <option value="hiring">👥 Hiring</option>
+                <option value="wage">💰 Wage & Hour</option>
+                <option value="performance">📊 Performance Management</option>
+                <option value="terminations">📝 Terminations</option>
+                <option value="claims">⚖️ Common Claims</option>
+                <option value="policies">📜 Key Policies</option>
+            `;
+        }
+
+        // Add a new score
+        function addScore() {
+            const category = document.getElementById('categorySelect').value;
+            const playerName = document.getElementById('playerName').value;
+            const score = parseInt(document.getElementById('score').value);
+            const time = document.getElementById('time').value;
+
+            if (!playerName || isNaN(score)) {
+                alert('Please enter both name and score');
+                return;
+            }
+
+            const scores = JSON.parse(localStorage.getItem('leaderboardScores'));
+            const oldTopScore = scores[category].length > 0 ? scores[category][0].score : 0;
+            
+            // Add score to selected category
+            scores[category].push({
+                name: playerName,
+                score: score,
+                time: time || 'N/A'
+            });
+
+            // Sort by score (descending)
+            scores[category].sort((a, b) => b.score - a.score);
+
+            localStorage.setItem('leaderboardScores', JSON.stringify(scores));
+            
+            // Play submit sound
+            document.getElementById('submitSound').play();
+
+            updateLeaderboards();
+            
+            // Clear form
+            document.getElementById('playerName').value = '';
+            document.getElementById('score').value = '';
+            document.getElementById('time').value = '';
+        }
+
+        // Celebration effects
+        function celebrateNewHighScore() {
+            // Play celebration sound
+            document.getElementById('celebrationSound').play();
+
+            // Add celebration animation to the leaderboard
+            const leaderboard = document.querySelector('.leaderboard');
+            leaderboard.classList.add('celebrate');
+            setTimeout(() => leaderboard.classList.remove('celebrate'), 500);
+
+            // Create confetti
+            createConfetti();
+        }
+
+        function createConfetti() {
+            const colors = ['#e67e22', '#2d6898', '#1a4b6e', '#ffc107', '#fff'];
+            const confettiCount = 100;
+            const container = document.querySelector('.confetti-container');
+            container.innerHTML = '';
+
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.animation = 'confetti 3s ease-out forwards';
+                container.appendChild(confetti);
+            }
+
+            // Clean up confetti after animation
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 6000);
+        }
+
+        // Reset all scores
+        function confirmResetAll() {
+            if (confirm('Are you sure you want to reset ALL scores? This cannot be undone.')) {
+                const emptyScores = {
                     overall: [],
                     hiring: [],
                     wage: [],
@@ -363,16 +1289,124 @@
                     claims: [],
                     policies: []
                 };
+                localStorage.setItem('leaderboardScores', JSON.stringify(emptyScores));
+                updateLeaderboards();
+                alert('All scores have been reset');
             }
         }
 
-        // [Rest of the JavaScript functions remain the same]
-        
+        // Reset specific category
+        function confirmResetCategory() {
+            const category = document.getElementById('resetCategorySelect').value;
+            if (!category) {
+                alert('Please select a category to reset');
+                return;
+            }
+
+            if (confirm(`Are you sure you want to reset scores for ${category}? This cannot be undone.`)) {
+                const scores = JSON.parse(localStorage.getItem('leaderboardScores'));
+                scores[category] = [];
+                localStorage.setItem('leaderboardScores', JSON.stringify(scores));
+                updateLeaderboards();
+                alert(`Scores for ${category} have been reset`);
+            }
+        }
+
+        // Update specific category leaderboard
+        function updateCategoryLeaderboard(tableId, scores) {
+            const tbody = document.getElementById(tableId);
+            tbody.innerHTML = '';
+
+            scores.forEach((score, index) => {
+                const row = tbody.insertRow();
+                const rankCell = row.insertCell();
+                const medal = getMedalEmoji(index);
+                rankCell.innerHTML = medal ? medal : (index + 1);
+                rankCell.className = medal ? 'medal-rank' : '';
+                
+                row.innerHTML += `
+                    <td>${score.name}</td>
+                    <td>${score.score}</td>
+                    <td>${score.time}</td>
+                `;
+            });
+        }
+
+        // Update overall leaderboard
+        function updateOverallLeaderboard(scores) {
+            const tbody = document.getElementById('overallLeaderboard');
+            tbody.innerHTML = '';
+
+            // Calculate total scores for each player
+            const playerTotals = {};
+            const categories = ['hiring', 'wage', 'performance', 'terminations', 'claims', 'policies'];
+
+            categories.forEach(category => {
+                scores[category].forEach(score => {
+                    if (!playerTotals[score.name]) {
+                        playerTotals[score.name] = {
+                            totalScore: 0,
+                            categoriesCompleted: 0
+                        };
+                    }
+                    playerTotals[score.name].totalScore += score.score;
+                    playerTotals[score.name].categoriesCompleted += 1;
+                });
+            });
+
+            // Convert to array and sort
+            const sortedPlayers = Object.entries(playerTotals)
+                .map(([name, data]) => ({
+                    name,
+                    totalScore: data.totalScore,
+                    categoriesCompleted: data.categoriesCompleted
+                }))
+                .sort((a, b) => b.totalScore - a.totalScore);
+
+            // Update table
+            sortedPlayers.forEach((player, index) => {
+                const row = tbody.insertRow();
+                const rankCell = row.insertCell();
+                const medal = getMedalEmoji(index);
+                rankCell.innerHTML = medal ? medal : (index + 1);
+                rankCell.className = medal ? 'medal-rank' : '';
+                
+                row.innerHTML += `
+                    <td>${player.name}</td>
+                    <td>${player.totalScore}</td>
+                    <td>${player.categoriesCompleted} / 6</td>
+                `;
+            });
+        }
+
+        // Get medal emoji based on rank
+        function getMedalEmoji(index) {
+            switch(index) {
+                case 0: return '🥇';
+                case 1: return '🥈';
+                case 2: return '🥉';
+                default: return null;
+            }
+        }
+
+        // Update all leaderboards
+        function updateLeaderboards() {
+            const scores = JSON.parse(localStorage.getItem('leaderboardScores'));
+            
+            // Update each category leaderboard
+            updateCategoryLeaderboard('hiringLeaderboard', scores.hiring);
+            updateCategoryLeaderboard('wageLeaderboard', scores.wage);
+            updateCategoryLeaderboard('performanceLeaderboard', scores.performance);
+            updateCategoryLeaderboard('terminationsLeaderboard', scores.terminations);
+            updateCategoryLeaderboard('claimsLeaderboard', scores.claims);
+            updateCategoryLeaderboard('policiesLeaderboard', scores.policies);
+            
+            // Update overall leaderboard
+            updateOverallLeaderboard(scores);
+        }
+
         // Initial update of leaderboards
         updateLeaderboards();
-        
-        // Auto-refresh leaderboard every 30 seconds
-        setInterval(updateLeaderboards, 30000);
     </script>
 </body>
 </html>
