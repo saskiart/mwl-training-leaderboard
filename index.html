@@ -976,7 +976,11 @@
                         <option value="overall">Select Category</option>
                         <option value="hiring">👥 Hiring</option>
                         <option value="wage">💰 Wage & Hour</option>
+                        <option value="accommodations">🤝 Accommodations</option>
+                        <option value="leave of absence">⏸️ Leave of Absence</option>
                         <option value="performance">📊 Performance Management</option>
+                        <option value="promotions">⭐ Promotions</option>
+                        <option value="organizational changes">🗂️ Organizational Changes</option>
                         <option value="terminations">📝 Terminations</option>
                         <option value="claims">⚖️ Common Claims</option>
                         <option value="policies">📜 Key Policies</option>
@@ -1062,6 +1066,52 @@
                     </table>
                 </div>
 
+<!-- Accommodations -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h3>
+                            <span class="category-icon">🤝</span>
+                            Accommodations
+                        </h3>
+                    </div>
+                    <table class="category-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="accommodationLeaderboard">
+                            <!-- Scores will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+
+<!-- Leave of Absence -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h3>
+                            <span class="category-icon">⏸️</span>
+                            Leave of Absence
+                        </h3>
+                    </div>
+                    <table class="category-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaveLeaderboard">
+                            <!-- Scores will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+                
                 <!-- Performance Management -->
                 <div class="category-section">
                     <div class="category-header">
@@ -1085,6 +1135,52 @@
                     </table>
                 </div>
 
+ <!-- Promotions -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h3>
+                            <span class="category-icon">⭐</span>
+                            Promotions
+                        </h3>
+                    </div>
+                    <table class="category-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="promoLeaderboard">
+                            <!-- Scores will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+
+ <!-- Organizational Changes -->
+                <div class="category-section">
+                    <div class="category-header">
+                        <h3>
+                            <span class="category-icon">🗂️ </span>
+                            Organizatinal Changes
+                        </h3>
+                    </div>
+                    <table class="category-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orgLeaderboard">
+                            <!-- Scores will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+                
                 <!-- Terminations -->
                 <div class="category-section">
                     <div class="category-header">
@@ -1184,7 +1280,11 @@
                     overall: [],
                     hiring: [],
                     wage: [],
+                    accommodation: [],
+                    leave: [],
                     performance: [],
+                    promo: [],
+                    org: [],
                     terminations: [],
                     claims: [],
                     policies: []
@@ -1243,7 +1343,11 @@
                 <option value="">Select Category to Reset</option>
                 <option value="hiring">👥 Hiring</option>
                 <option value="wage">💰 Wage & Hour</option>
+                <option value="accommodations">🤝 Accommodations</option>
+                <option value="leave of absence">⏸️ Leave of Absence</option>
                 <option value="performance">📊 Performance Management</option>
+                <option value="promotions">⭐ Promotions</option>
+                <option value="organizational changes">🗂️ Organizational Changes</option>
                 <option value="terminations">📝 Terminations</option>
                 <option value="claims">⚖️ Common Claims</option>
                 <option value="policies">📜 Key Policies</option>
@@ -1333,7 +1437,11 @@
                     overall: [],
                     hiring: [],
                     wage: [],
+                    accommodation: [],
+                    leave: [],
                     performance: [],
+                    promo: [],
+                    org: [],
                     terminations: [],
                     claims: [],
                     policies: []
@@ -1398,7 +1506,7 @@
 
             // Calculate total scores for each player
             const playerTotals = {};
-            const categories = ['hiring', 'wage', 'performance', 'terminations', 'claims', 'policies'];
+            const categories = ['hiring', 'wage', 'accommodation', 'leave', 'performance', 'promo', 'org', 'terminations', 'claims', 'policies'];
 
             categories.forEach(category => {
                 scores[category].forEach(score => {
@@ -1455,7 +1563,11 @@
             // Update each category leaderboard
             updateCategoryLeaderboard('hiringLeaderboard', scores.hiring);
             updateCategoryLeaderboard('wageLeaderboard', scores.wage);
+            updateCategoryLeaderboard('accommodationLeaderboard', scores.accommodation);
+            updateCategoryLeaderboard('leaveLeaderboard', scores.leave);
             updateCategoryLeaderboard('performanceLeaderboard', scores.performance);
+            updateCategoryLeaderboard('promoLeaderboard', scores.promo);
+            updateCategoryLeaderboard('orgLeaderboard', scores.org);
             updateCategoryLeaderboard('terminationsLeaderboard', scores.terminations);
             updateCategoryLeaderboard('claimsLeaderboard', scores.claims);
             updateCategoryLeaderboard('policiesLeaderboard', scores.policies);
