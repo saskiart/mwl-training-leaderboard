@@ -28,7 +28,11 @@ We've made it easy to access the leaderboard in two ways:
 CATEGORIES:
 ✓ 👥 Hiring
 ✓ 💰 Wage & Hour
+✓ 🤝 Accommodations
+✓ ⏸️ Leave of Absence
 ✓ 📊 Performance Management
+✓ ⭐ Promotions
+✓ 🗂️ Organizational Changes
 ✓ 📝 Terminations
 ✓ ⚖️ Common Claims
 ✓ 📜 Key Policies
@@ -36,7 +40,7 @@ CATEGORIES:
 SUBMISSION PROCESS:
 1. Select your category from the dropdown menu
 2. Enter your name (use the same format each time)
-3. Input your score
+3. Input your total points (overall score) for category
 4. Add time (optional)
 5. Click "Add Score"
 
