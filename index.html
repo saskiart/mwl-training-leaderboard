@@ -17,31 +17,17 @@
 
         /* Celebration Animation */
         @keyframes celebrate {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         @keyframes confetti {
-            0% {
-                opacity: 1;
-                transform: translateY(0) rotate(0);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(100vh) rotate(720deg);
-            }
+            0% { opacity: 1; transform: translateY(0) rotate(0); }
+            100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
         }
 
-        .celebrate {
-            animation: celebrate 0.5s ease-in-out;
-        }
+        .celebrate { animation: celebrate 0.5s ease-in-out; }
 
         .confetti-container {
             position: fixed;
@@ -61,9 +47,7 @@
             opacity: 0;
         }
         
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
         
         body { 
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -76,7 +60,6 @@
             line-height: 1.5;
         }
 
-        /* Main Layout */
         .page-wrapper {
             width: 100%;
             margin: 0 auto;
@@ -87,14 +70,9 @@
             align-items: center;
         }
 
-        /* Spotlight Animation */
         @keyframes spotlight {
-            0%, 100% {
-                background-position: -100% 0, 200% 0;
-            }
-            50% {
-                background-position: 200% 0, -100% 0;
-            }
+            0%, 100% { background-position: -100% 0, 200% 0; }
+            50% { background-position: 200% 0, -100% 0; }
         }
 
         .spotlight-effect {
@@ -111,25 +89,14 @@
             right: 0;
             bottom: 0;
             background: 
-                linear-gradient(90deg, 
-                    transparent 0%, 
-                    rgba(255, 255, 255, 0.05) 45%,
-                    rgba(255, 255, 255, 0.1) 50%,
-                    rgba(255, 255, 255, 0.05) 55%,
-                    transparent 100%),
-                linear-gradient(90deg, 
-                    transparent 0%, 
-                    rgba(255, 255, 255, 0.05) 45%,
-                    rgba(255, 255, 255, 0.1) 50%,
-                    rgba(255, 255, 255, 0.05) 55%,
-                    transparent 100%);
+                linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.05) 45%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 55%, transparent 100%),
+                linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.05) 45%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 55%, transparent 100%);
             background-size: 200% 100%, 200% 100%;
             animation: spotlight 12s linear infinite;
             pointer-events: none;
             border-radius: inherit;
         }
 
-        /* Main Title */
         .main-header {
             width: 1000px;
             margin: 0 auto 15px;
@@ -184,9 +151,7 @@
             height: 100%;
             left: 50%;
             transform: translateX(-50%) rotate(45deg);
-            box-shadow: 
-                -12px 0 0 rgba(255, 255, 255, 0.2),
-                12px 0 0 rgba(255, 255, 255, 0.2);
+            box-shadow: -12px 0 0 rgba(255, 255, 255, 0.2), 12px 0 0 rgba(255, 255, 255, 0.2);
         }
 
         .decoration-left::after,
@@ -195,9 +160,7 @@
             height: 3px;
             top: 50%;
             transform: translateY(-50%) rotate(45deg);
-            box-shadow: 
-                0 -12px 0 rgba(255, 255, 255, 0.2),
-                0 12px 0 rgba(255, 255, 255, 0.2);
+            box-shadow: 0 -12px 0 rgba(255, 255, 255, 0.2), 0 12px 0 rgba(255, 255, 255, 0.2);
         }
 
         .title-stars {
@@ -235,7 +198,6 @@
             letter-spacing: 1px;
         }
 
-        /* Host Section */
         .host-section {
             width: 800px;
             margin: 0 auto 15px;
@@ -315,7 +277,6 @@
             gap: 8px;
         }
 
-        /* Three Panel Layout */
         .three-panel-layout {
             width: 100%;
             max-width: 1800px;
@@ -325,7 +286,6 @@
             margin-bottom: 30px;
         }
 
-        /* Rules Section */
         .rules-section {
             width: 280px;
             background: white;
@@ -352,7 +312,6 @@
             margin-bottom: 8px;
         }
 
-        /* Score Entry Panel */
         .score-entry-panel {
             width: 280px;
             background: var(--gradient-primary);
@@ -399,7 +358,6 @@
             cursor: pointer;
         }
 
-        /* Center Content */
         .center-content {
             width: 1000px;
             margin: 0 auto;
@@ -408,7 +366,6 @@
             gap: 30px;
         }
 
-        /* Leaderboard */
         .leaderboard {
             width: 100%;
             background: white;
@@ -433,7 +390,6 @@
             gap: 8px;
         }
 
-        /* Category Grid */
         .category-grid {
             width: 100%;
             display: grid;
@@ -464,7 +420,6 @@
             gap: 8px;
         }
 
-        /* Table Styling */
         .category-table {
             width: 100%;
             border-collapse: separate;
@@ -490,7 +445,6 @@
             text-align: center;
         }
 
-        /* Fixed Elements */
         .fixed-elements {
             position: fixed;
             top: 0;
@@ -510,7 +464,6 @@
             pointer-events: auto;
         }
 
-        /* Admin Panel */
         .admin-toggle-btn {
             background: var(--gradient-primary);
             color: white;
@@ -628,7 +581,6 @@
             background: #e0a800;
         }
 
-        /* Modal Backdrop */
         .modal-backdrop {
             position: fixed;
             top: 0;
@@ -640,7 +592,6 @@
             display: none;
         }
 
-        /* Decorative Elements */
         .decorative-corner {
             position: fixed;
             width: 180px;
@@ -667,8 +618,7 @@
             height: 100%;
             left: 30px;
             transform: rotate(-45deg);
-            box-shadow: 15px 0 0 rgba(45, 104, 152, 0.5),
-                       30px 0 0 rgba(45, 104, 152, 0.3);
+            box-shadow: 15px 0 0 rgba(45, 104, 152, 0.5), 30px 0 0 rgba(45, 104, 152, 0.3);
         }
 
         .corner-left::after {
@@ -676,8 +626,7 @@
             height: 3px;
             top: 30px;
             transform: rotate(-45deg);
-            box-shadow: 0 15px 0 rgba(45, 104, 152, 0.5),
-                       0 30px 0 rgba(45, 104, 152, 0.3);
+            box-shadow: 0 15px 0 rgba(45, 104, 152, 0.5), 0 30px 0 rgba(45, 104, 152, 0.3);
         }
 
         .corner-right {
@@ -690,8 +639,7 @@
             height: 100%;
             right: 30px;
             transform: rotate(45deg);
-            box-shadow: -15px 0 0 rgba(230, 126, 34, 0.5),
-                       -30px 0 0 rgba(230, 126, 34, 0.3);
+            box-shadow: -15px 0 0 rgba(230, 126, 34, 0.5), -30px 0 0 rgba(230, 126, 34, 0.3);
         }
 
         .corner-right::after {
@@ -699,8 +647,7 @@
             height: 3px;
             top: 30px;
             transform: rotate(45deg);
-            box-shadow: 0 15px 0 rgba(230, 126, 34, 0.5),
-                       0 30px 0 rgba(230, 126, 34, 0.3);
+            box-shadow: 0 15px 0 rgba(230, 126, 34, 0.5), 0 30px 0 rgba(230, 126, 34, 0.3);
         }
 
         .sparkle {
@@ -739,15 +686,12 @@
             color: #ffc107;
         }
 
-        /* Fixed sparkles */
         .sparkle-1 { top: 100px; left: 80px; animation-delay: 0s; }
         .sparkle-2 { top: 140px; left: 120px; animation-delay: 0.5s; }
         .sparkle-3 { top: 180px; left: 70px; animation-delay: 1s; }
         .sparkle-4 { top: 100px; right: 80px; animation-delay: 0.3s; }
         .sparkle-5 { top: 140px; right: 120px; animation-delay: 0.8s; }
         .sparkle-6 { top: 180px; right: 70px; animation-delay: 1.3s; }
-
-        /* Additional sparkles */
         .sparkle-7 { top: 250px; left: 50px; animation-delay: 1.6s; }
         .sparkle-8 { top: 300px; right: 60px; animation-delay: 1.9s; }
         .sparkle-9 { top: 400px; left: 40px; animation-delay: 2.2s; }
@@ -755,7 +699,6 @@
         .sparkle-11 { top: 550px; left: 55px; animation-delay: 2.8s; }
         .sparkle-12 { top: 600px; right: 65px; animation-delay: 3.1s; }
 
-        /* Floating shapes */
         .floating-shape {
             position: absolute;
             width: 20px;
@@ -848,8 +791,6 @@
         <div class="sparkle sparkle-4 blue"></div>
         <div class="sparkle sparkle-5 gold"></div>
         <div class="sparkle sparkle-6 orange"></div>
-        
-        <!-- Additional Sparkles -->
         <div class="sparkle sparkle-7 blue"></div>
         <div class="sparkle sparkle-8 gold"></div>
         <div class="sparkle sparkle-9 orange"></div>
@@ -953,3 +894,11 @@
             <div class="rules-section">
                 <div class="category-header">
                     <h3>
+                        <span class="category-icon">📋</span>
+                        How to Play
+                    </h3>
+                </div>
+                <ol>
+                    <li>Complete each category (where applicable) to test your knowledge.✍️🧠</li>
+                    <li>After each category, add up your correct answers and enter only your total score for that category in the Score Entry Panel. ✅📝.</li>
+                    <li>Skip any categories you didn't play or that weren't tested.
