@@ -721,18 +721,3 @@
 
         function updateCategoryLeaderboard(tableId, scores) {
             const tbody = document.getElementById(tableId);
-            tbody.innerHTML = '';
-
-            scores.forEach((score, index) => {
-                const row = tbody.insertRow();
-                const medal = getMedalEmoji(index);
-                row.innerHTML = `
-                    <td class="${typeof medal === 'string' ? 'medal-rank' : ''}">${medal}</td>
-                    <td>${score.name}</td>
-                    <td>${score.score}</td>
-                    <td>${score.time}</td>
-                `;
-            });
-        }
-
-        function updateOverallLeaderboard(scores) {
