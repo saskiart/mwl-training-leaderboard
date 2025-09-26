@@ -1,625 +1,500 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>MANAGING WITHIN THE LAW - US GAME SHOW EDITION</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MWL Training Leaderboard</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        
-        :root {
-            --host-blue: #2d6898;
-            --host-orange: #e67e22;
-            --block-text: #1A1A1A;
-            --gradient-primary: linear-gradient(135deg, var(--host-blue), #1a4b6e);
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
-        }
-
-        @keyframes celebrate {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes confetti {
-            0% { opacity: 1; transform: translateY(0) rotate(0); }
-            100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
-        }
-
-        .celebrate { animation: celebrate 0.5s ease-in-out; }
-
-        .confetti-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 9999;
-        }
-
-        .confetti {
-            position: absolute; width: 10px; height: 10px;
-            background-color: var(--host-orange); opacity: 0;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
         }
         
-        * { box-sizing: border-box; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
         
-        body { 
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            margin: 0; padding: 0;
-            background: linear-gradient(135deg, #b5f7f0, #ffd4c4);
-            min-height: 100vh; color: var(--block-text);
-            background-attachment: fixed; line-height: 1.5;
+        .header {
+            background: linear-gradient(45deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
         }
-
-        .page-wrapper {
-            width: 100%; margin: 0 auto; padding: 15px 20px;
-            min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
         }
-
-        @keyframes spotlight {
-            0%, 100% { background-position: -100% 0, 200% 0; }
-            50% { background-position: 200% 0, -100% 0; }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
         }
-
-        .spotlight-effect {
-            position: relative; overflow: hidden;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+        
+        .main-content {
+            padding: 30px;
         }
-
-        .spotlight-effect::before {
-            content: ''; position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.05) 45%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 55%, transparent 100%);
-            background-size: 200% 100%;
-            animation: spotlight 12s linear infinite;
-            pointer-events: none; border-radius: inherit;
+        
+        .section {
+            margin-bottom: 40px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-
-        .main-header {
-            width: 1000px; margin: 0 auto 15px;
-            background: var(--gradient-primary); border-radius: 12px;
-            padding: 15px; text-align: center; color: white;
-            box-shadow: var(--shadow-md); position: relative; overflow: hidden;
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 1.8em;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
         }
-
-        .title-wrapper h1 {
-            margin: 0; font-size: 2em; font-weight: 700; letter-spacing: 1px;
+        
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
-
-        .title-wrapper h2 {
-            margin: 15px 0; font-size: 1.6em; color: var(--host-orange);
-            text-transform: uppercase; letter-spacing: 2px; font-weight: 600;
+        
+        .input-group input, .input-group select {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
         }
-
-        .subtitle {
-            font-size: 1.3em; margin-top: 10px; font-weight: 500; letter-spacing: 1px;
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #3498db;
         }
-
-        .host-section { width: 800px; margin: 0 auto 15px; }
-
-        .host-wrapper {
-            background: var(--gradient-primary); border-radius: 12px;
-            padding: 15px; box-shadow: var(--shadow-md);
+        
+        .btn {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-
-        .host-content {
-            display: flex; align-items: center; gap: 20px;
-            background: rgba(255, 255, 255, 0.98);
-            padding: 15px; border-radius: 8px; position: relative;
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
         }
-
-        .host-image { width: 100px; flex-shrink: 0; }
-
-        .host-image img {
-            width: 100%; height: auto; border-radius: 12px; box-shadow: var(--shadow-sm);
+        
+        .btn-admin {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            margin-left: 10px;
         }
-
-        .host-message { flex-grow: 1; padding-left: 5px; padding-right: 160px; }
-
-        .contestants-image {
-            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
-            width: 140px; height: auto; border-radius: 8px; box-shadow: var(--shadow-sm);
+        
+        .btn-admin:hover {
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
         }
-
-        .host-message h3 {
-            color: var(--host-blue); margin: 0 0 8px 0;
-            font-size: 1.1em; font-weight: 600;
-        }
-
-        .host-message p { margin: 0 0 12px 0; font-size: 0.95em; }
-
-        .host-message-details {
-            background: rgba(45, 104, 152, 0.05); padding: 12px;
-            border-radius: 8px; display: grid; gap: 8px; font-size: 0.9em;
-        }
-
-        .host-message-details p {
-            margin: 0; display: flex; align-items: center; gap: 8px;
-        }
-
-        .three-panel-layout {
-            width: 100%; max-width: 1800px; margin: 0 auto;
-            padding: 0 40px; position: relative; margin-bottom: 30px;
-        }
-
-        .rules-section {
-            width: 280px; background: white; border-radius: 12px;
-            padding: 15px; box-shadow: var(--shadow-md);
-            position: absolute; left: 40px;
-        }
-
-        .rules-section h3 {
-            margin: 0 0 10px 0; font-size: 1em; text-align: center;
-        }
-
-        .rules-section ol {
-            margin: 0; padding-left: 20px; font-size: 0.9em;
-        }
-
-        .rules-section li { margin-bottom: 8px; }
-
-        .score-entry-panel {
-            width: 280px; background: var(--gradient-primary);
-            border-radius: 12px; box-shadow: var(--shadow-md);
-            position: absolute; right: 40px; color: white;
-        }
-
-        .score-entry-panel h3 {
-            margin: 0; font-size: 1.1em; font-weight: 600;
-            padding: 15px 15px 5px 15px; text-align: center;
-        }
-
-        .score-form {
-            display: flex; flex-direction: column; gap: 10px; padding: 15px;
-        }
-
-        .score-form select, .score-form input {
-            width: 100%; padding: 8px 12px; border: none;
-            border-radius: 8px; font-size: 0.9em;
-        }
-
-        .score-form button {
-            width: 100%; padding: 10px; background: var(--host-orange);
-            color: white; border: none; border-radius: 8px;
-            font-size: 0.9em; font-weight: 600; cursor: pointer;
-        }
-
-        .center-content {
-            width: 1000px; margin: 0 auto;
-            display: flex; flex-direction: column; gap: 30px;
-        }
-
+        
         .leaderboard {
-            width: 100%; background: white; border-radius: 12px;
-            overflow: hidden; box-shadow: var(--shadow-md);
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-
-        .leaderboard-header {
-            background: var(--gradient-primary); color: white; padding: 12px 15px;
+        
+        .leaderboard table {
+            width: 100%;
+            border-collapse: collapse;
         }
-
-        .leaderboard-header h3 {
-            margin: 0; font-size: 1.1em; font-weight: 600;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
+        
+        .leaderboard th {
+            background: linear-gradient(45deg, #34495e, #2c3e50);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
         }
-
-        .category-grid {
-            width: 100%; display: grid;
-            grid-template-columns: repeat(2, 1fr); gap: 30px;
+        
+        .leaderboard td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
         }
-
-        .category-section {
-            background: white; border-radius: 12px;
-            overflow: hidden; box-shadow: var(--shadow-md);
+        
+        .leaderboard tr:nth-child(even) {
+            background: #f8f9fa;
         }
-
-        .category-header {
-            background: var(--gradient-primary); padding: 12px 15px; color: white;
+        
+        .leaderboard tr:hover {
+            background: #e3f2fd;
         }
-
-        .category-header h3 {
-            margin: 0; font-size: 1em; font-weight: 600;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-
-        .category-table {
-            width: 100%; border-collapse: separate; border-spacing: 0;
-        }
-
-        .category-table th, .category-table td {
-            padding: 10px 12px; text-align: left;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06); font-size: 0.9em;
-        }
-
-        .category-table th {
-            background: rgba(45, 104, 152, 0.03);
-            font-weight: 600; color: var(--host-blue);
-        }
-
-        .medal-rank { font-size: 1.2em; text-align: center; }
-
-        .fixed-elements {
-            position: fixed; top: 0; left: 0; right: 0;
-            padding: 20px 40px; display: flex;
-            justify-content: space-between; align-items: center;
-            z-index: 1000; pointer-events: none;
-        }
-
-        .block-logo { height: 100px; width: auto; pointer-events: auto; }
-
-        .admin-toggle-btn {
-            background: var(--gradient-primary); color: white; border: none;
-            padding: 8px 15px; border-radius: 8px; cursor: pointer;
-            font-size: 0.9em; box-shadow: var(--shadow-md);
-            display: flex; align-items: center; gap: 6px; pointer-events: auto;
-        }
-
+        
+        .rank-1 { color: #f39c12; font-weight: bold; }
+        .rank-2 { color: #95a5a6; font-weight: bold; }
+        .rank-3 { color: #e67e22; font-weight: bold; }
+        
         .admin-panel {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: white; border-radius: 16px; padding: 20px;
-            box-shadow: var(--shadow-lg); z-index: 1001;
-            width: 90%; max-width: 400px; max-height: 90vh;
-            overflow-y: auto; display: none;
+            display: none;
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
         }
-
-        .admin-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 20px; padding-bottom: 15px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        
+        .admin-panel h3 {
+            color: #856404;
+            margin-top: 0;
         }
-
-        .admin-header h3 { margin: 0; font-size: 1.2em; color: var(--host-blue); }
-
-        .close-btn {
-            background: none; border: none; font-size: 1.5em;
-            cursor: pointer; color: #666; padding: 0;
-            width: 30px; height: 30px; display: flex;
-            align-items: center; justify-content: center; border-radius: 50%;
+        
+        .status-message {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: none;
         }
-
-        .close-btn:hover { background: rgba(0, 0, 0, 0.05); }
-
-        .admin-section { display: flex; flex-direction: column; gap: 15px; }
-
-        .admin-section h4 { margin: 0; color: var(--host-blue); font-size: 1em; }
-
-        .admin-section select {
-            width: 100%; padding: 8px 12px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: 8px; font-size: 0.9em; margin-bottom: 10px;
+        
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
-
-        .danger-btn, .warning-btn {
-            padding: 10px 15px; border: none; border-radius: 8px;
-            font-size: 0.9em; font-weight: 600; cursor: pointer;
-            width: 100%; text-align: center; transition: background-color 0.2s;
+        
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
-
-        .danger-btn { background: #dc3545; color: white; }
-        .warning-btn { background: #ffc107; color: #000; }
-        .danger-btn:hover { background: #c82333; }
-        .warning-btn:hover { background: #e0a800; }
-
-        .modal-backdrop {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5); z-index: 1000; display: none;
-        }
-
-        @media (max-width: 1600px) {
-            .rules-section, .score-entry-panel {
-                position: static; width: 100%; max-width: 1000px; margin: 0 auto 15px;
+        
+        @media (max-width: 768px) {
+            .input-group {
+                flex-direction: column;
             }
-            .three-panel-layout {
-                display: flex; flex-direction: column; align-items: center;
+            
+            .input-group input, .input-group select, .btn {
+                width: 100%;
             }
-            .center-content { width: 100%; max-width: 1000px; }
-        }
-
-        @media (max-width: 1024px) {
-            .category-grid { grid-template-columns: 1fr; }
+            
+            .leaderboard {
+                overflow-x: auto;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="page-wrapper">
-        <!-- Block Logo and Admin -->
-        <div class="fixed-elements">
-            <img src="images/block-lockup_black-on-white.jpg" alt="Block Logo" class="block-logo">
-            <button onclick="toggleAdminPanel()" class="admin-toggle-btn">
-                <span>⚙️</span>
-                <span>Admin</span>
-            </button>
+    <div class="container">
+        <div class="header">
+            <h1>🏆 MWL Training Leaderboard</h1>
+            <p>Track your progress in the legal training game show!</p>
         </div>
-
-        <!-- Modal Backdrop -->
-        <div id="modalBackdrop" class="modal-backdrop"></div>
-
-        <!-- Admin Panel -->
-        <div id="adminPanel" class="admin-panel">
-            <div class="admin-header">
-                <h3>Admin Controls</h3>
-                <button onclick="toggleAdminPanel()" class="close-btn">×</button>
-            </div>
-            <div class="admin-content">
-                <div class="admin-section">
-                    <h4>Reset Controls</h4>
-                    <button onclick="confirmResetAll()" class="danger-btn">Reset All Scores</button>
-                    <select id="resetCategorySelect">
-                        <option value="">Select Category to Reset</option>
-                        <option value="hiring">👥 Hiring</option>
-                        <option value="wage">💰 Wage & Hour</option>
-                        <option value="accommodations">🤝 Accommodations</option>
-                        <option value="leave of absence">⏸️ Leave of Absence</option>
-                        <option value="performance">📊 Performance Management</option>
-                        <option value="promotions">⭐ Promotions</option>
-                        <option value="organizational changes">🗂️ Organizational Changes</option>
-                        <option value="terminations">📝 Terminations</option>
-                        <option value="claims">⚖️ Common Claims</option>
-                        <option value="policies">📜 Key Policies</option>
+        
+        <div class="main-content">
+            <!-- Score Entry Section -->
+            <div class="section">
+                <h2>📝 Add/Update Score</h2>
+                <p><strong>Instructions:</strong> Enter your name, select a category, and input your score. If you already have a score in that category, you'll be asked if you want to update it.</p>
+                <div class="input-group">
+                    <input type="text" id="playerName" placeholder="Enter player name" required>
+                    <select id="category" required>
+                        <option value="">Select Category</option>
+                        <option value="Securities Trading and MNPI Policy">Securities Trading and MNPI Policy</option>
+                        <option value="Definition of Dishonesty">Definition of Dishonesty</option>
+                        <option value="Block Generative AI Policy">Block Generative AI Policy</option>
                     </select>
-                    <button onclick="confirmResetCategory()" class="warning-btn">Reset Selected Category</button>
+                    <input type="number" id="score" placeholder="Score" min="0" max="100" required>
+                    <button class="btn" onclick="addScore()">Add/Update Score</button>
+                    <button class="btn btn-admin" onclick="toggleAdmin()">Admin</button>
+                </div>
+                <div id="statusMessage" class="status-message"></div>
+            </div>
+
+            <!-- Admin Panel -->
+            <div id="adminPanel" class="admin-panel">
+                <h3>🔧 Admin Controls</h3>
+                <p><strong>Warning:</strong> These actions cannot be undone!</p>
+                <div class="input-group">
+                    <button class="btn btn-admin" onclick="resetAllData()">Reset All Data</button>
+                    <button class="btn btn-admin" onclick="cleanupDuplicates()">Cleanup Duplicates</button>
+                    <button class="btn btn-admin" onclick="exportData()">Export Data</button>
                 </div>
             </div>
-        </div>
 
-        <!-- Main Title -->
-        <div class="main-header spotlight-effect">
-            <div class="title-wrapper">
-                <h1>MANAGING WITHIN THE LAW</h1>
-                <h2>GAME SHOW EDITION</h2>
-                <div class="subtitle">LEADERBOARD</div>
-            </div>
-        </div>
-
-        <!-- Host Section -->
-        <div class="host-section">
-            <div class="host-wrapper spotlight-effect">
-                <div class="host-content">
-                    <div class="host-image">
-                        <img src="images/Game Show Host with Blue Board.png" alt="Game Show Host">
-                    </div>
-                    <div class="host-message">
-                        <h3>Welcome to the Legal Challenge!</h3>
-                        <p>Test your knowledge for a chance to earn 🏆 top rankings</p>
-                        <div class="host-message-details">
-                            <p>🎯 Master key legal concepts</p>
-                            <p>📚 Learn as you go — every question's a chance to grow</p>
-                            <p>🎉 Celebrate your progress and cheer on your peers</p>
-                        </div>
-                    </div>
-                    <img src="images/ChatGPT Image Apr 29, 2025, 10_23_35 PM.png" alt="Game Show Contestants" class="contestants-image">
-                </div>
-            </div>
-        </div>
-
-        <!-- Three Panel Layout -->
-        <div class="three-panel-layout">
-            <!-- How to Play -->
-            <div class="rules-section">
-                <div class="category-header">
-                    <h3>📋 How to Play</h3>
-                </div>
-                <ol>
-                    <li>Complete each category (where applicable) to test your knowledge.✍️🧠</li>
-                    <li>After each category, add up your correct answers and enter your total score for that category in the Score Entry Panel. ✅📝</li>
-                    <li>For sections with multiple questions: You can update your score as you go! Just re-enter your name and new total score - the system will ask if you want to update. 🔄</li>
-                    <li>Skip any categories you didn't play or that weren't tested.❌</li>
-                    <li>The more categories you complete, the higher your chance to climb the leaderboard! 🏆🎉</li>
-                </ol>
-            </div>
-
-            <!-- Score Entry -->
-            <div class="score-entry-panel">
-                <h3>✏️ Update Score</h3>
-                <div class="score-form">
-                    <select id="categorySelect">
-                        <option value="overall">Select Category</option>
-                        <option value="hiring">👥 Hiring</option>
-                        <option value="wage">💰 Wage & Hour</option>
-                        <option value="accommodations">🤝 Accommodations</option>
-                        <option value="leave of absence">⏸️ Leave of Absence</option>
-                        <option value="performance">📊 Performance Management</option>
-                        <option value="promotions">⭐ Promotions</option>
-                        <option value="organizational changes">🗂️ Organizational Changes</option>
-                        <option value="terminations">📝 Terminations</option>
-                        <option value="claims">⚖️ Common Claims</option>
-                        <option value="policies">📜 Key Policies</option>
-                    </select>
-                    <input type="text" id="playerName" placeholder="Your Name">
-                    <input type="number" id="score" placeholder="Score">
-                    <input type="text" id="time" placeholder="Time (Optional)">
-                    <button onclick="addScore()">Add/Update Score</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Center Content -->
-        <div class="center-content">
             <!-- Overall Leaderboard -->
-            <div class="leaderboard">
-                <div class="leaderboard-header">
-                    <h3>🏆 Leaderboard</h3>
+            <div class="section">
+                <h2>🏅 Overall Leaderboard</h2>
+                <p>Combined scores across all categories (highest score per category counts)</p>
+                <div class="leaderboard">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Total Score</th>
+                                <th>Categories Completed</th>
+                            </tr>
+                        </thead>
+                        <tbody id="overallLeaderboard">
+                        </tbody>
+                    </table>
                 </div>
-                <table class="category-table">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Player</th>
-                            <th>Total Score</th>
-                            <th>Categories Completed</th>
-                        </tr>
-                    </thead>
-                    <tbody id="overallLeaderboard">
-                        <!-- Scores will be added here -->
-                    </tbody>
-                </table>
             </div>
 
-            <!-- Category Grid -->
-            <div class="category-grid">
-                <!-- Hiring -->
-                <div class="category-section">
-                    <div class="category-header">
-                        <h3>👥 Hiring</h3>
+            <!-- Category Leaderboards -->
+            <div class="section">
+                <h2>📊 Category Leaderboards</h2>
+                
+                <div id="securitiesLeaderboard">
+                    <h3>Securities Trading and MNPI Policy</h3>
+                    <div class="leaderboard">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Player</th>
+                                    <th>Score</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="securitiesTable">
+                            </tbody>
+                        </table>
                     </div>
-                    <table class="category-table">
-                        <thead>
-                            <tr><th>Rank</th><th>Player</th><th>Score</th><th>Time</th></tr>
-                        </thead>
-                        <tbody id="hiringLeaderboard"></tbody>
-                    </table>
                 </div>
 
-                <!-- Wage & Hour -->
-                <div class="category-section">
-                    <div class="category-header">
-                        <h3>💰 Wage & Hour</h3>
+                <div id="dishonestyLeaderboard">
+                    <h3>Definition of Dishonesty</h3>
+                    <div class="leaderboard">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Player</th>
+                                    <th>Score</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dishonestyTable">
+                            </tbody>
+                        </table>
                     </div>
-                    <table class="category-table">
-                        <thead>
-                            <tr><th>Rank</th><th>Player</th><th>Score</th><th>Time</th></tr>
-                        </thead>
-                        <tbody id="wageLeaderboard"></tbody>
-                    </table>
                 </div>
 
-                <!-- Accommodations -->
-                <div class="category-section">
-                    <div class="category-header">
-                        <h3>🤝 Accommodations</h3>
+                <div id="aiLeaderboard">
+                    <h3>Block Generative AI Policy</h3>
+                    <div class="leaderboard">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Player</th>
+                                    <th>Score</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="aiTable">
+                            </tbody>
+                        </table>
                     </div>
-                    <table class="category-table">
-                        <thead>
-                            <tr><th>Rank</th><th>Player</th><th>Score</th><th>Time</th></tr>
-                        </thead>
-                        <tbody id="accommodationsLeaderboard"></tbody>
-                    </table>
-                </div>
-
-                <!-- Leave of Absence -->
-                <div class="category-section">
-                    <div class="category-header">
-                        <h3>⏸️ Leave of Absence</h3>
-                    </div>
-                    <table class="category-table">
-                        <thead>
-                            <tr><th>Rank</th><th>Player</th><th>Score</th><th>Time</th></tr>
-                        </thead>
-                        <tbody id="leaveOfAbsenceLeaderboard"></tbody>
-                    </table>
-                </div>
-
-                <!-- Performance Management -->
-                <div class="category-section">
-                    <div class="category-header">
-                        <h3>📊 Performance Management</h3>
-                    </div>
-                    <table class="category-table">
-                        <thead>
-                            <tr><th>Rank</th><th>Player</th><th>Score</th><th>Time</th></tr>
-                        </thead>
-                        <tbody id="performanceLeaderboard"></tbody>
-                    </table>
-                </div>
-
-                <!-- Promotions -->
-                <div class="category-section">
-                    <div class="category-header">
-                        <h3>⭐ Promotions</h3>
-                    </div>
-                    <table class="category-table">
-                        <thead>
-                            <tr><th>Rank</th><th>Player</th><th>Score</th><th>Time</th></tr>
-                        </thead>
-                        <tbody id="promotionsLeaderboard"></tbody>
-                    </table>
-                </div>
-
-                <!-- Organizational Changes -->
-                <div class="category-section">
-                    <div class="category-header">
-                        <h3>🗂️ Organizational Changes</h3>
-                    </div>
-                    <table class="category-table">
-                        <thead>
-                            <tr><th>Rank</th><th>Player</th><th>Score</th><th>Time</th></tr>
-                        </thead>
-                        <tbody id="organizationalChangesLeaderboard"></tbody>
-                    </table>
-                </div>
-
-                <!-- Terminations -->
-                <div class="category-section">
-                    <div class="category-header">
-                        <h3>📝 Terminations</h3>
-                    </div>
-                    <table class="category-table">
-                        <thead>
-                            <tr><th>Rank</th><th>Player</th><th>Score</th><th>Time</th></tr>
-                        </thead>
-                        <tbody id="terminationsLeaderboard"></tbody>
-                    </table>
-                </div>
-
-                <!-- Common Claims -->
-                <div class="category-section">
-                    <div class="category-header">
-                        <h3>⚖️ Common Claims</h3>
-                    </div>
-                    <table class="category-table">
-                        <thead>
-                            <tr><th>Rank</th><th>Player</th><th>Score</th><th>Time</th></tr>
-                        </thead>
-                        <tbody id="claimsLeaderboard"></tbody>
-                    </table>
-                </div>
-
-                <!-- Key Policies -->
-                <div class="category-section">
-                    <div class="category-header">
-                        <h3>📜 Key Policies</h3>
-                    </div>
-                    <table class="category-table">
-                        <thead>
-                            <tr><th>Rank</th><th>Player</th><th>Score</th><th>Time</th></tr>
-                        </thead>
-                        <tbody id="policiesLeaderboard"></tbody>
-                    </table>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // JSONBin.io configuration
-        const JSONBIN_BIN_ID = '6831ed698960c979a5a09182';
-        const JSONBIN_API_KEY = '$2a$10$az3EVReenqC2VS1Obky5Cuph1T2/9Md5SJf2jT7k12EGB8FebuuKS';
-        const JSONBIN_API_URL = 'https://api.jsonbin.io/v3/b';
+        // Configuration
+        const JSONBIN_API_KEY = '$2a$10$FVfJZ8tHZqKdQn0sQxK0/.123456789abcdef'; // Replace with your actual API key
+        const JSONBIN_BIN_ID = '676504b3ad19ca34f8d4f123'; // Replace with your actual bin ID
+        
+        // Initialize scores object
+        let scores = {
+            'Securities Trading and MNPI Policy': [],
+            'Definition of Dishonesty': [],
+            'Block Generative AI Policy': []
+        };
 
-        async function getScores() {
-            try {
-                const response = await fetch(`${JSONBIN_API_URL}/${JSONBIN_BIN_ID}/latest`, {
-                    headers: { 'X-Master-Key': JSONBIN_API_KEY }
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    return data.record;
-                }
-            } catch (error) {
-                console.error('JSONBin.io error:', error);
-            }
+        // Load data on page load
+        window.addEventListener('load', function() {
+            loadScores();
+            // Clean up duplicates on load
+            setTimeout(() => {
+                cleanupDuplicates();
+            }, 1000);
+        });
+
+        // Show status message
+        function showStatus(message, isError = false) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.textContent = message;
+            statusDiv.className = `status-message ${isError ? 'status-error' : 'status-success'}`;
+            statusDiv.style.display = 'block';
             
-            return {
-                hiring: [], wage: [], accommodations: [], 'leave of absence': [],
-                performance: [], promotions: [], 'organizational changes': [],
-                terminations: [], claims: [], policies: []
-            };
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+            }, 5000);
         }
 
-        async function saveScores(scores) {
-            try {
-                localStorage.setItem('mwl_leaderboard_backup', JSON.stringify(scores));
+        // Add or update score with duplicate checking
+        function addScore() {
+            const playerName = document.getElementById('playerName').value.trim();
+            const category = document.getElementById('category').value;
+            const scoreValue = parseInt(document.getElementById('score').value);
+
+            // Validation
+            if (!playerName || !category || isNaN(scoreValue)) {
+                showStatus('Please fill in all fields with valid data.', true);
+                return;
+            }
+
+            if (scoreValue < 0 || scoreValue > 100) {
+                showStatus('Score must be between 0 and 100.', true);
+                return;
+            }
+
+            // Check for existing player in this category
+            const existingPlayerIndex = scores[category].findIndex(
+                entry => entry.name.toLowerCase() === playerName.toLowerCase()
+            );
+
+            if (existingPlayerIndex !== -1) {
+                const existingScore = scores[category][existingPlayerIndex].score;
+                const confirmUpdate = confirm(
+                    `${playerName} already has a score of ${existingScore} in "${category}".\n\n` +
+                    `Do you want to update it to ${scoreValue}?`
+                );
                 
-                const response = await fetch(`${JSONBIN_API_URL}/${JSONBIN_BIN_ID}`, {
+                if (!confirmUpdate) {
+                    showStatus('Score update cancelled.', false);
+                    return;
+                }
+                
+                // Update existing entry
+                scores[category][existingPlayerIndex] = {
+                    name: playerName,
+                    score: scoreValue,
+                    date: new Date().toLocaleDateString()
+                };
+                
+                showStatus(`Updated ${playerName}'s score in "${category}" to ${scoreValue}!`, false);
+            } else {
+                // Add new entry
+                scores[category].push({
+                    name: playerName,
+                    score: scoreValue,
+                    date: new Date().toLocaleDateString()
+                });
+                
+                showStatus(`Added ${playerName}'s score of ${scoreValue} in "${category}"!`, false);
+            }
+
+            // Save and update displays
+            saveScores();
+            updateAllLeaderboards();
+            
+            // Clear form
+            document.getElementById('playerName').value = '';
+            document.getElementById('category').value = '';
+            document.getElementById('score').value = '';
+        }
+
+        // Update all leaderboards
+        function updateAllLeaderboards() {
+            updateCategoryLeaderboard('Securities Trading and MNPI Policy', 'securitiesTable');
+            updateCategoryLeaderboard('Definition of Dishonesty', 'dishonestyTable');
+            updateCategoryLeaderboard('Block Generative AI Policy', 'aiTable');
+            updateOverallLeaderboard();
+        }
+
+        // Update category leaderboard
+        function updateCategoryLeaderboard(category, tableId) {
+            const tableBody = document.getElementById(tableId);
+            const categoryScores = [...scores[category]].sort((a, b) => b.score - a.score);
+            
+            tableBody.innerHTML = '';
+            
+            categoryScores.forEach((entry, index) => {
+                const row = tableBody.insertRow();
+                const rank = index + 1;
+                
+                row.innerHTML = `
+                    <td class="${rank <= 3 ? 'rank-' + rank : ''}">#${rank}</td>
+                    <td>${entry.name}</td>
+                    <td>${entry.score}</td>
+                    <td>${entry.date}</td>
+                `;
+            });
+        }
+
+        // Update overall leaderboard (fixed to prevent double-counting duplicates)
+        function updateOverallLeaderboard() {
+            const overallScores = {};
+            
+            // Calculate total scores, using only the highest score per player per category
+            Object.keys(scores).forEach(category => {
+                const playerBestScores = {};
+                
+                // Find best score for each player in this category
+                scores[category].forEach(entry => {
+                    const playerName = entry.name.toLowerCase();
+                    if (!playerBestScores[playerName] || entry.score > playerBestScores[playerName]) {
+                        playerBestScores[playerName] = entry.score;
+                    }
+                });
+                
+                // Add best scores to overall totals
+                Object.keys(playerBestScores).forEach(playerName => {
+                    if (!overallScores[playerName]) {
+                        overallScores[playerName] = {
+                            name: playerName,
+                            totalScore: 0,
+                            categoriesCompleted: 0
+                        };
+                    }
+                    overallScores[playerName].totalScore += playerBestScores[playerName];
+                    overallScores[playerName].categoriesCompleted++;
+                });
+            });
+            
+            // Convert to array and sort
+            const sortedOverall = Object.values(overallScores)
+                .sort((a, b) => b.totalScore - a.totalScore);
+            
+            // Update table
+            const tableBody = document.getElementById('overallLeaderboard');
+            tableBody.innerHTML = '';
+            
+            sortedOverall.forEach((entry, index) => {
+                const row = tableBody.insertRow();
+                const rank = index + 1;
+                
+                row.innerHTML = `
+                    <td class="${rank <= 3 ? 'rank-' + rank : ''}">#${rank}</td>
+                    <td style="text-transform: capitalize;">${entry.name}</td>
+                    <td>${entry.totalScore}</td>
+                    <td>${entry.categoriesCompleted}</td>
+                `;
+            });
+        }
+
+        // Save scores to JSONBin and localStorage
+        async function saveScores() {
+            // Save to localStorage as backup
+            localStorage.setItem('mwl-leaderboard-scores', JSON.stringify(scores));
+            
+            // Save to JSONBin
+            try {
+                const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -628,98 +503,131 @@
                     body: JSON.stringify(scores)
                 });
                 
-                return response.ok;
+                if (!response.ok) {
+                    console.warn('Failed to save to JSONBin, using localStorage backup');
+                }
             } catch (error) {
-                console.error('Save error:', error);
-                return true; // localStorage backup worked
+                console.warn('Error saving to JSONBin:', error);
             }
         }
 
-        function toggleAdminPanel() {
-            const adminPanel = document.getElementById('adminPanel');
-            const modalBackdrop = document.getElementById('modalBackdrop');
-            const isVisible = adminPanel.style.display === 'block';
-            
-            adminPanel.style.display = isVisible ? 'none' : 'block';
-            modalBackdrop.style.display = isVisible ? 'none' : 'block';
-        }
-
-        document.getElementById('modalBackdrop').addEventListener('click', function(e) {
-            if (e.target === this) toggleAdminPanel();
-        });
-
-        async function addScore() {
-            const category = document.getElementById('categorySelect').value;
-            const playerName = document.getElementById('playerName').value.trim();
-            const score = parseInt(document.getElementById('score').value);
-            const time = document.getElementById('time').value;
-
-            if (category === 'overall' || !category) {
-                alert('Please select a specific category');
-                return;
-            }
-
-            if (!playerName || isNaN(score)) {
-                alert('Please enter both name and score');
-                return;
-            }
-
-            const scores = await getScores();
-            
-            // Check if player already has a score in this category
-            const existingPlayerIndex = scores[category].findIndex(
-                entry => entry.name.toLowerCase() === playerName.toLowerCase()
-            );
-            
-            if (existingPlayerIndex !== -1) {
-                const existingScore = scores[category][existingPlayerIndex].score;
-                const confirmUpdate = confirm(
-                    `${playerName} already has a score of ${existingScore} in ${category}.\n\n` +
-                    `Do you want to:\n` +
-                    `• Click OK to UPDATE to the new score (${score})\n` +
-                    `• Click Cancel to keep the existing score (${existingScore})`
-                );
-                
-                if (confirmUpdate) {
-                    // Update existing entry
-                    scores[category][existingPlayerIndex] = {
-                        name: playerName,
-                        score: score,
-                        time: time || 'N/A'
-                    };
-                } else {
-                    // User cancelled, don't update
-                    return;
-                }
-            } else {
-                // Add new entry
-                scores[category].push({
-                    name: playerName,
-                    score: score,
-                    time: time || 'N/A'
+        // Load scores from JSONBin or localStorage
+        async function loadScores() {
+            try {
+                // Try to load from JSONBin first
+                const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                    headers: {
+                        'X-Master-Key': JSONBIN_API_KEY
+                    }
                 });
-            }
-
-            // Sort by score (descending)
-            scores[category].sort((a, b) => b.score - a.score);
-
-            if (await saveScores(scores)) {
-                updateLeaderboards();
                 
-                document.getElementById('playerName').value = '';
-                document.getElementById('score').value = '';
-                document.getElementById('time').value = '';
-                
-                if (existingPlayerIndex !== -1) {
-                    alert(`Score updated successfully! ${playerName}'s new score: ${score}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    scores = data.record || scores;
                 } else {
-                    alert(`Score added successfully! ${playerName}: ${score}`);
+                    // Fallback to localStorage
+                    const localData = localStorage.getItem('mwl-leaderboard-scores');
+                    if (localData) {
+                        scores = JSON.parse(localData);
+                    }
                 }
-            } else {
-                alert('Failed to save score. Please try again.');
+            } catch (error) {
+                console.warn('Error loading from JSONBin, using localStorage:', error);
+                // Fallback to localStorage
+                const localData = localStorage.getItem('mwl-leaderboard-scores');
+                if (localData) {
+                    scores = JSON.parse(localData);
+                }
+            }
+            
+            // Ensure all categories exist
+            const categories = ['Securities Trading and MNPI Policy', 'Definition of Dishonesty', 'Block Generative AI Policy'];
+            categories.forEach(category => {
+                if (!scores[category]) {
+                    scores[category] = [];
+                }
+            });
+            
+            updateAllLeaderboards();
+        }
+
+        // Admin functions
+        function toggleAdmin() {
+            const panel = document.getElementById('adminPanel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function resetAllData() {
+            if (confirm('Are you sure you want to reset ALL data? This cannot be undone!')) {
+                scores = {
+                    'Securities Trading and MNPI Policy': [],
+                    'Definition of Dishonesty': [],
+                    'Block Generative AI Policy': []
+                };
+                saveScores();
+                updateAllLeaderboards();
+                showStatus('All data has been reset!', false);
             }
         }
 
-        function confirmResetAll() {
-            if (confirm('Are you sure you want to reset ALL scores? This cannot be undone.')) {
-                const em
+        function cleanupDuplicates() {
+            let duplicatesFound = 0;
+            
+            Object.keys(scores).forEach(category => {
+                const seen = new Map();
+                const cleaned = [];
+                
+                scores[category].forEach(entry => {
+                    const playerName = entry.name.toLowerCase();
+                    if (!seen.has(playerName) || entry.score > seen.get(playerName).score) {
+                        if (seen.has(playerName)) {
+                            duplicatesFound++;
+                            // Remove the previous entry
+                            const index = cleaned.findIndex(e => e.name.toLowerCase() === playerName);
+                            if (index !== -1) cleaned.splice(index, 1);
+                        }
+                        seen.set(playerName, entry);
+                        cleaned.push(entry);
+                    } else {
+                        duplicatesFound++;
+                    }
+                });
+                
+                scores[category] = cleaned;
+            });
+            
+            if (duplicatesFound > 0) {
+                saveScores();
+                updateAllLeaderboards();
+                showStatus(`Cleaned up ${duplicatesFound} duplicate entries!`, false);
+            } else {
+                showStatus('No duplicates found!', false);
+            }
+        }
+
+        function exportData() {
+            const dataStr = JSON.stringify(scores, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'mwl-leaderboard-data.json';
+            link.click();
+            URL.revokeObjectURL(url);
+            showStatus('Data exported successfully!', false);
+        }
+
+        // Handle Enter key in form fields
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = ['playerName', 'score'];
+            inputs.forEach(inputId => {
+                document.getElementById(inputId).addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        addScore();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
