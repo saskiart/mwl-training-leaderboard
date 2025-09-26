@@ -666,7 +666,7 @@
 
             const scores = await getScores();
             
-            // Check if player already has a score in this category
+           // Check if player already has a score in this category
             const existingPlayerIndex = scores[category].findIndex(
                 entry => entry.name.toLowerCase() === playerName.toLowerCase()
             );
@@ -702,26 +702,3 @@
 
             // Sort by score (descending)
             scores[category].sort((a, b) => b.score - a.score);
-
-            if (await saveScores(scores)) {
-                updateLeaderboards();
-                
-                document.getElementById('playerName').value = '';
-                document.getElementById('score').value = '';
-                document.getElementById('time').value = '';
-                
-                if (existingPlayerIndex !== -1) {
-                    alert(`Score updated successfully! ${playerName}'s new score: ${score}`);
-                } else {
-                    alert(`Score added successfully! ${playerName}: ${score}`);
-                }
-            } else {
-                alert('Failed to save score. Please try again.');
-            }
-        }
-
-        function confirmResetAll() {
-            if (confirm('Are you sure you want to reset ALL scores? This cannot be undone.')) {
-                const emptyScores = {
-                    hiring: [], wage: [], accommodations: [], 'leave of absence': [],
-                    performance: [], promotions: [], 'organizational changes
