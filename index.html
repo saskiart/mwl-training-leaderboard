@@ -399,7 +399,8 @@
                 </div>
                 <ol>
                     <li>Complete each category (where applicable) to test your knowledge.✍️🧠</li>
-                    <li>After each category, add up your correct answers and enter only your total score for that category in the Score Entry Panel. ✅📝.</li>
+                    <li>After each category, add up your correct answers and enter your total score for that category in the Score Entry Panel. ✅📝</li>
+                    <li>For sections with multiple questions: You can update your score as you go! Just re-enter your name and new total score - the system will ask if you want to update. 🔄</li>
                     <li>Skip any categories you didn't play or that weren't tested.❌</li>
                     <li>The more categories you complete, the higher your chance to climb the leaderboard! 🏆🎉</li>
                 </ol>
@@ -425,7 +426,7 @@
                     <input type="text" id="playerName" placeholder="Your Name">
                     <input type="number" id="score" placeholder="Score">
                     <input type="text" id="time" placeholder="Time (Optional)">
-                    <button onclick="addScore()">Add Score</button>
+                    <button onclick="addScore()">Add/Update Score</button>
                 </div>
             </div>
         </div>
@@ -649,7 +650,7 @@
 
         async function addScore() {
             const category = document.getElementById('categorySelect').value;
-            const playerName = document.getElementById('playerName').value;
+            const playerName = document.getElementById('playerName').value.trim();
             const score = parseInt(document.getElementById('score').value);
             const time = document.getElementById('time').value;
 
@@ -665,12 +666,41 @@
 
             const scores = await getScores();
             
-            scores[category].push({
-                name: playerName,
-                score: score,
-                time: time || 'N/A'
-            });
+            // Check if player already has a score in this category
+            const existingPlayerIndex = scores[category].findIndex(
+                entry => entry.name.toLowerCase() === playerName.toLowerCase()
+            );
+            
+            if (existingPlayerIndex !== -1) {
+                const existingScore = scores[category][existingPlayerIndex].score;
+                const confirmUpdate = confirm(
+                    `${playerName} already has a score of ${existingScore} in ${category}.\n\n` +
+                    `Do you want to:\n` +
+                    `• Click OK to UPDATE to the new score (${score})\n` +
+                    `• Click Cancel to keep the existing score (${existingScore})`
+                );
+                
+                if (confirmUpdate) {
+                    // Update existing entry
+                    scores[category][existingPlayerIndex] = {
+                        name: playerName,
+                        score: score,
+                        time: time || 'N/A'
+                    };
+                } else {
+                    // User cancelled, don't update
+                    return;
+                }
+            } else {
+                // Add new entry
+                scores[category].push({
+                    name: playerName,
+                    score: score,
+                    time: time || 'N/A'
+                });
+            }
 
+            // Sort by score (descending)
             scores[category].sort((a, b) => b.score - a.score);
 
             if (await saveScores(scores)) {
@@ -680,130 +710,7 @@
                 document.getElementById('score').value = '';
                 document.getElementById('time').value = '';
                 
-                alert('Score added successfully!');
-            } else {
-                alert('Failed to save score. Please try again.');
-            }
-        }
-
-        function confirmResetAll() {
-            if (confirm('Are you sure you want to reset ALL scores? This cannot be undone.')) {
-                const emptyScores = {
-                    hiring: [], wage: [], accommodations: [], 'leave of absence': [],
-                    performance: [], promotions: [], 'organizational changes': [],
-                    terminations: [], claims: [], policies: []
-                };
-                
-                saveScores(emptyScores).then(() => {
-                    updateLeaderboards();
-                    alert('All scores have been reset');
-                });
-            }
-        }
-
-        function confirmResetCategory() {
-            const category = document.getElementById('resetCategorySelect').value;
-            if (!category) {
-                alert('Please select a category to reset');
-                return;
-            }
-
-            if (confirm(`Are you sure you want to reset scores for ${category}? This cannot be undone.`)) {
-                getScores().then(scores => {
-                    scores[category] = [];
-                    saveScores(scores).then(() => {
-                        updateLeaderboards();
-                        alert(`Scores for ${category} have been reset`);
-                    });
-                });
-            }
-        }
-
-                function updateCategoryLeaderboard(tableId, scores) {
-            const tbody = document.getElementById(tableId);
-            tbody.innerHTML = '';
-
-            scores.forEach((score, index) => {
-                const row = tbody.insertRow();
-                const medal = getMedalEmoji(index);
-                row.innerHTML = `
-                    <td class="${typeof medal === 'string' ? 'medal-rank' : ''}">${medal}</td>
-                    <td>${score.name}</td>
-                    <td>${score.score}</td>
-                    <td>${score.time}</td>
-                `;
-            });
-        }
-
-        function updateOverallLeaderboard(scores) {
-            const playerTotals = {};
-            
-            // Calculate total scores per player
-            Object.keys(scores).forEach(category => {
-                scores[category].forEach(score => {
-                    if (!playerTotals[score.name]) {
-                        playerTotals[score.name] = {
-                            name: score.name,
-                            totalScore: 0,
-                            categories: new Set()
-                        };
-                    }
-                    playerTotals[score.name].totalScore += score.score;
-                    playerTotals[score.name].categories.add(category);
-                });
-            });
-
-            // Sort by total score
-            const sortedPlayers = Object.values(playerTotals)
-                .sort((a, b) => b.totalScore - a.totalScore);
-
-            const tbody = document.getElementById('overallLeaderboard');
-            tbody.innerHTML = '';
-
-            sortedPlayers.forEach((player, index) => {
-                const row = tbody.insertRow();
-                const medal = getMedalEmoji(index);
-                row.innerHTML = `
-                    <td class="${typeof medal === 'string' ? 'medal-rank' : ''}">${medal}</td>
-                    <td>${player.name}</td>
-                    <td>${player.totalScore}</td>
-                    <td>${player.categories.size}</td>
-                `;
-            });
-        }
-
-        function getMedalEmoji(rank) {
-            switch(rank) {
-                case 0: return '🥇';
-                case 1: return '🥈';
-                case 2: return '🥉';
-                default: return (rank + 1).toString();
-            }
-        }
-
-        async function updateLeaderboards() {
-            const scores = await getScores();
-            
-            // Update overall leaderboard
-            updateOverallLeaderboard(scores);
-            
-            // Update category leaderboards
-            updateCategoryLeaderboard('hiringLeaderboard', scores.hiring || []);
-            updateCategoryLeaderboard('wageLeaderboard', scores.wage || []);
-            updateCategoryLeaderboard('accommodationsLeaderboard', scores.accommodations || []);
-            updateCategoryLeaderboard('leaveOfAbsenceLeaderboard', scores['leave of absence'] || []);
-            updateCategoryLeaderboard('performanceLeaderboard', scores.performance || []);
-            updateCategoryLeaderboard('promotionsLeaderboard', scores.promotions || []);
-            updateCategoryLeaderboard('organizationalChangesLeaderboard', scores['organizational changes'] || []);
-            updateCategoryLeaderboard('terminationsLeaderboard', scores.terminations || []);
-            updateCategoryLeaderboard('claimsLeaderboard', scores.claims || []);
-            updateCategoryLeaderboard('policiesLeaderboard', scores.policies || []);
-        }
-
-        // Initialize the leaderboard when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            updateLeaderboards();
-        });
-    </script>
-</body>
-</html>
+                if (existingPlayerIndex !== -1) {
+                    alert(`Score updated successfully! ${playerName}'s new score: ${score}`);
+                } else {
+                    alert(`Score added successfully! ${playerName}: ${score
