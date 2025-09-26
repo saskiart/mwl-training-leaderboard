@@ -674,4 +674,52 @@
             if (existingPlayerIndex !== -1) {
                 const existingScore = scores[category][existingPlayerIndex].score;
                 const confirmUpdate = confirm(
-                    `
+                    `${playerName} already has a score of ${existingScore} in ${category}.\n\n` +
+                    `Do you want to:\n` +
+                    `• Click OK to UPDATE to the new score (${score})\n` +
+                    `• Click Cancel to keep the existing score (${existingScore})`
+                );
+                
+                if (confirmUpdate) {
+                    // Update existing entry
+                    scores[category][existingPlayerIndex] = {
+                        name: playerName,
+                        score: score,
+                        time: time || 'N/A'
+                    };
+                } else {
+                    // User cancelled, don't update
+                    return;
+                }
+            } else {
+                // Add new entry
+                scores[category].push({
+                    name: playerName,
+                    score: score,
+                    time: time || 'N/A'
+                });
+            }
+
+            // Sort by score (descending)
+            scores[category].sort((a, b) => b.score - a.score);
+
+            if (await saveScores(scores)) {
+                updateLeaderboards();
+                
+                document.getElementById('playerName').value = '';
+                document.getElementById('score').value = '';
+                document.getElementById('time').value = '';
+                
+                if (existingPlayerIndex !== -1) {
+                    alert(`Score updated successfully! ${playerName}'s new score: ${score}`);
+                } else {
+                    alert(`Score added successfully! ${playerName}: ${score}`);
+                }
+            } else {
+                alert('Failed to save score. Please try again.');
+            }
+        }
+
+        function confirmResetAll() {
+            if (confirm('Are you sure you want to reset ALL scores? This cannot be undone.')) {
+                const em
