@@ -702,3 +702,167 @@
 
             // Sort by score (descending)
             scores[category].sort((a, b) => b.score - a.score);
+
+            // Save scores
+            const saved = await saveScores(scores);
+            if (saved) {
+                alert(`Score ${existingPlayerIndex !== -1 ? 'updated' : 'added'} successfully!`);
+                
+                // Clear form
+                document.getElementById('categorySelect').value = 'overall';
+                document.getElementById('playerName').value = '';
+                document.getElementById('score').value = '';
+                document.getElementById('time').value = '';
+                
+                // Update displays
+                updateLeaderboards();
+            } else {
+                alert('Error saving score. Please try again.');
+            }
+        }
+
+        function updateLeaderboards() {
+            getScores().then(scores => {
+                // Update category leaderboards
+                const categories = ['hiring', 'wage', 'accommodations', 'leave of absence', 
+                                 'performance', 'promotions', 'organizational changes', 
+                                 'terminations', 'claims', 'policies'];
+                
+                categories.forEach(category => {
+                    const tableId = category.replace(/\s+/g, '') + 'Leaderboard';
+                    const tbody = document.getElementById(tableId);
+                    if (tbody) {
+                        tbody.innerHTML = '';
+                        
+                        scores[category].forEach((entry, index) => {
+                            const row = tbody.insertRow();
+                            const rankCell = row.insertCell(0);
+                            const nameCell = row.insertCell(1);
+                            const scoreCell = row.insertCell(2);
+                            const timeCell = row.insertCell(3);
+                            
+                            // Add medal emojis for top 3
+                            let rankDisplay = index + 1;
+                            if (index === 0) rankDisplay = '🥇';
+                            else if (index === 1) rankDisplay = '🥈';
+                            else if (index === 2) rankDisplay = '🥉';
+                            
+                            rankCell.innerHTML = `<span class="medal-rank">${rankDisplay}</span>`;
+                            nameCell.textContent = entry.name;
+                            scoreCell.textContent = entry.score;
+                            timeCell.textContent = entry.time;
+                        });
+                    }
+                });
+                
+                // Update overall leaderboard
+                updateOverallLeaderboard(scores);
+            });
+        }
+
+        function updateOverallLeaderboard(scores) {
+            const playerTotals = {};
+            const categories = ['hiring', 'wage', 'accommodations', 'leave of absence', 
+                             'performance', 'promotions', 'organizational changes', 
+                             'terminations', 'claims', 'policies'];
+            
+            // Calculate totals for each player
+            categories.forEach(category => {
+                scores[category].forEach(entry => {
+                    const playerName = entry.name.toLowerCase();
+                    if (!playerTotals[playerName]) {
+                        playerTotals[playerName] = {
+                            name: entry.name,
+                            totalScore: 0,
+                            categoriesCompleted: 0
+                        };
+                    }
+                    playerTotals[playerName].totalScore += entry.score;
+                    playerTotals[playerName].categoriesCompleted += 1;
+                });
+            });
+            
+            // Convert to array and sort
+            const sortedPlayers = Object.values(playerTotals)
+                .sort((a, b) => {
+                    if (b.totalScore !== a.totalScore) {
+                        return b.totalScore - a.totalScore;
+                    }
+                    return b.categoriesCompleted - a.categoriesCompleted;
+                });
+            
+            // Update table
+            const tbody = document.getElementById('overallLeaderboard');
+            tbody.innerHTML = '';
+            
+            sortedPlayers.forEach((player, index) => {
+                const row = tbody.insertRow();
+                const rankCell = row.insertCell(0);
+                const nameCell = row.insertCell(1);
+                const scoreCell = row.insertCell(2);
+                const categoriesCell = row.insertCell(3);
+                
+                // Add medal emojis for top 3
+                let rankDisplay = index + 1;
+                if (index === 0) rankDisplay = '🥇';
+                else if (index === 1) rankDisplay = '🥈';
+                else if (index === 2) rankDisplay = '🥉';
+                
+                rankCell.innerHTML = `<span class="medal-rank">${rankDisplay}</span>`;
+                nameCell.textContent = player.name;
+                scoreCell.textContent = player.totalScore;
+                categoriesCell.textContent = player.categoriesCompleted;
+            });
+        }
+
+        async function confirmResetAll() {
+            if (confirm('Are you sure you want to reset ALL scores? This cannot be undone.')) {
+                const emptyScores = {
+                    hiring: [], wage: [], accommodations: [], 'leave of absence': [],
+                    performance: [], promotions: [], 'organizational changes': [],
+                    terminations: [], claims: [], policies: []
+                };
+                
+                const saved = await saveScores(emptyScores);
+                if (saved) {
+                    alert('All scores have been reset.');
+                    updateLeaderboards();
+                    toggleAdminPanel();
+                } else {
+                    alert('Error resetting scores. Please try again.');
+                }
+            }
+        }
+
+        async function confirmResetCategory() {
+            const category = document.getElementById('resetCategorySelect').value;
+            if (!category) {
+                alert('Please select a category to reset.');
+                return;
+            }
+            
+            if (confirm(`Are you sure you want to reset all scores in the "${category}" category? This cannot be undone.`)) {
+                const scores = await getScores();
+                scores[category] = [];
+                
+                const saved = await saveScores(scores);
+                if (saved) {
+                    alert(`${category} category has been reset.`);
+                    updateLeaderboards();
+                    document.getElementById('resetCategorySelect').value = '';
+                } else {
+                    alert('Error resetting category. Please try again.');
+                }
+            }
+        }
+
+        // Load and display scores when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLeaderboards();
+        });
+
+        // Auto-refresh every 30 seconds to keep scores updated
+        setInterval(updateLeaderboards, 30000);
+    </script>
+</body>
+</html>
