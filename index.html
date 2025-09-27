@@ -673,18 +673,20 @@
             
             if (existingPlayerIndex !== -1) {
                 const existingScore = scores[category][existingPlayerIndex].score;
-                const confirmUpdate = confirm(
+                const newTotalScore = existingScore + score;
+                
+                const confirmAdd = confirm(
                     `${playerName} already has a score of ${existingScore} in ${category}.\n\n` +
-                    `Do you want to:\n` +
-                    `• Click OK to UPDATE to the new score (${score})\n` +
-                    `• Click Cancel to keep the existing score (${existingScore})`
+                    `Adding ${score} points will make their total: ${newTotalScore}\n\n` +
+                    `• Click OK to ADD ${score} points (new total: ${newTotalScore})\n` +
+                    `• Click Cancel to keep existing score (${existingScore})`
                 );
                 
-                if (confirmUpdate) {
-                    // Update existing entry
+                if (confirmAdd) {
+                    // Add to existing score
                     scores[category][existingPlayerIndex] = {
                         name: playerName,
-                        score: score,
+                        score: newTotalScore,
                         time: time || 'N/A'
                     };
                 } else {
